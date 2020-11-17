@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html class="x-admin-sm"  xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="./css/font.css" th:href="@{/css/font.css}">
+    <link rel="stylesheet" href="./css/xadmin.css" th:href="@{/css/xadmin.css}">
+    <script src="./lib/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js" th:src="@{/js/xadmin.js}"></script>
+    <script type="text/javascript" src="./comment/messageAlert.js" th:src="@{/comment/messageAlert.js}"></script>
+    <link rel="stylesheet" href="./css/metroStyle.css" th:href="@{/css/metroStyle.css}">
+    <script src="./js/jquery.ztree.all.min.js" th:src="@{/js/jquery.ztree.all.min.js}"></script>
+   <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body{
+            background: white;
+        }
+    </style>
+</head>
+
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form class="layui-form" id="editForm" lay-filter="editForm">
+            <input id="id" type="hidden" name="id" lay-filter="id">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <span class="x-red">*</span>成本类型
+                    </label>
+                    <div class="layui-input-inline">
+                        <input readonly lay-verify = "required" id="costTypeName" name="costTypeName" class="layui-input" type="text" placeholder="请选择成本类型" autocomplete="off">
+                        <input id="costTypeId" type="hidden" name="costTypeId" />
+                        <div class="ztree" id="treeDiv" style="z-index:1000;background:white;display:none; position: absolute;border:1px solid #4aa5ff;width:200px;">
+                            <ul id="tree"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="cost" class="layui-form-label">
+                        <span class="x-red">*</span>成本金额</label>
+                    <div class="layui-input-inline">
+                        <input  placeholder="￥" lay-verify="required" type="text" id="cost" name="cost" required="" autocomplete="off" class="layui-input"></div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="payee" class="layui-form-label">
+                        <span class="x-red">*</span>收款人</label>
+                    <div class="layui-input-inline">
+                        <input placeholder="请输入收款人" lay-verify="required" type="text" id="payee" name="payee" autocomplete="off" class="layui-input"></div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="payeeTel" class="layui-form-label">
+                        收款人电话</label>
+                    <div class="layui-input-inline">
+                        <input placeholder="请输入收款人电话" type="text" id="payeeTel" name="payeeTel" autocomplete="off" class="layui-input"></div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否支付</label>
+                    <div class="layui-input-block">
+                        <input type="radio" lay-filter="isPay" name="isPay" value="1" title="已支付">
+                        <input type="radio" lay-filter="isPay" name="isPay" value="0" title="未支付">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="createTime" class="layui-form-label">
+                        <span class="x-red">*</span>添加时间
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="createTime" id="createTime" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="note" class="layui-form-label">备注</label>
+                    <div class="layui-input-inline">
+                        <input placeholder="请输入备注" type="text" id="note" name="note" autocomplete="off" class="layui-input"></div>
+                </div>
+                <div class="layui-form-item  layui-hide">
+                    <button class="layui-btn" lay-filter="edit" lay-submit id="edit">增加</button>
+                </div>
+        </form>
+    </div>
+</div>
+<script>
+    window.onload = function () {
+        layui.use(['form', 'layer','jquery','laydate'], function() {
+            var $ = layui.jquery,
+                form = layui.form,
+                layer = layui.layer,
+                laydate = layui.laydate;
+            //日期
+            laydate.render({
+                elem: '#createTime'
+                ,trigger: 'click' //自动弹出控件的事件，采用click弹出
+            });
+
+            var setting = {
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+                check: {
+                    enable: true,
+                    chkStyle: "radio",//值为checkbox或者radio表示
+                    radioType:"all",
+                },
+                //回调
+                callback: {
+                    onClick: function (e, treeId, treeNode, clickFlag) {
+                        var ztree = $.fn.zTree.getZTreeObj("tree");
+                        ztree.checkNode(treeNode, !treeNode.checked, true);
+                    },
+                view: {
+                    fontCss: { fontSize: "14px" }
+                }
+            }}
+
+            //加载菜单树
+            $.ajax({
+                url: 'getCostTypeInfoList',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    if(data.success) {
+                        var ztree = $.fn.zTree.init($("#tree"), setting, data.data);
+                        ztree.expandAll(true);
+                        var disabledNode = ztree.getNodeByParam("level", 0);
+                        ztree.setChkDisabled(disabledNode, true);
+                        $.ajax({
+                            url: 'getContractCostTypeRelatedById',
+                            type: 'GET',
+                            data : {
+                              id : $('#id').val()
+                            },
+                            dataType: 'json',
+                            success: function(data) {
+                                // console.log(data.data)
+                                if(data.success) {
+                                    var zTreeOjb = $.fn.zTree.getZTreeObj("tree");
+                                    var d = data.data;
+                                    var str = d.costTypeId;
+                                    var arr = str.split(",");
+                                    var node = zTreeOjb.getNodeByParam("id",arr[arr.length - 1]);
+                                    node.checked = true;
+                                    zTreeOjb.updateNode(node);
+                                    form.val('editForm',d);
+                                    $("input[name=isPay][value=0]").attr("checked", d.isPay == 0 ? true : false);
+                                    $("input[name=isPay][value=1]").attr("checked", d.isPay == 1 ? true : false);
+                                    form.render();
+                                } else {
+                                    layer.msg('加载模块数据节点失败', {
+                                        icon: 5
+                                    });
+                                }
+                            },
+                            error: function(data) {
+                                layer.msg(data.msg, {
+                                    icon: 5
+                                });
+                            }
+                        });
+                    } else {
+                        layer.msg('加载模块数据节点失败', {
+                            icon: 5
+                        });
+                    }
+                },
+                error: function(data) {
+                    layer.msg(data.msg, {
+                        icon: 5
+                    });
+                }
+            });
+
+            //下拉框显示 隐藏
+            $('#costTypeName').on("click",function () {
+                showTree1();
+            });
+            function showTree1(){
+                if($('#treeDiv').css('display') == 'none'){
+                    $('#treeDiv').css('display','block');
+                } else{
+                    $('#treeDiv').css('display','none');
+                }
+                $("body").bind("mousedown", onBodyDownByActionType1);
+            }
+            function hideTree1() {
+                $('#treeDiv').css('display','none');
+                $("body").unbind("mousedown", onBodyDownByActionType1);
+                return false;
+            }
+
+            //区域外点击事件
+            function onBodyDownByActionType1(event) {
+                var zTreeOjb = $.fn.zTree.getZTreeObj("tree");
+                var nodes = zTreeOjb.getCheckedNodes(true);//在提交表单之前将选中的checkbox收集
+                var node = nodes[0];
+                if (typeof(node) != "undefined"){
+                    $('#costTypeName').val(node.name);
+                    var s=node.id;
+                    while(node=node.getParentNode())s=node.id+','+s;
+                    $('#costTypeId').val(s);
+                }else {
+                    $('#costTypeName').val("");
+                    $('#costTypeId').val("");
+                }
+                if (event.target.id.indexOf('tree') == -1){
+                    if(event.target.id != 'selectDevType'){
+                        hideTree1();
+                    }
+                }
+
+            }
+
+            //监听提交
+            form.on('submit(edit)', function(data) {
+                $.ajax({
+                    url : 'updateContractCostTypeRelated',
+                    type : 'PUT',
+                    data : $('#editForm').serialize(),
+                    dataType : 'json',
+                    success : function(result){
+                        if(result.success) {
+                            layer.msg(result.msg, {icon: 6,time: 1500},function () {
+                                // parent.layui.table.reload('costTypeTable');
+                                // parent.reloadTree();
+                                parent.location.reload();
+                                //当你在iframe页面关闭自身时
+                                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                                parent.layer.close(index); //再执行关闭
+                            });
+                        }else {
+                            layer.msg(data.msg, {icon: 5,time: 1500});
+                        }
+                    },
+                    error: function() {
+                        layer.msg('系统错误！', {
+                            icon: 5
+                        });
+                    }
+                });
+                return false;
+            });
+
+        });
+    }
+
+</script>
+</body>
+
+</html>

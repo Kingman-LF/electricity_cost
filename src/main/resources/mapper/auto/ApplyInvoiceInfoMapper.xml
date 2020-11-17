@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xwkj.cost.mapper.auto.ApplyInvoiceInfoMapper">
+  <resultMap id="BaseResultMap" type="com.xwkj.cost.model.ApplyInvoiceInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="latetime" jdbcType="TIMESTAMP" property="latetime" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="contract_id" jdbcType="BIGINT" property="contractId" />
+    <result column="money_back_id" jdbcType="BIGINT" property="moneyBackId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, createtime, latetime, type, money, note, contract_id, money_back_id, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_gb_apply_invoice
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tbl_gb_apply_invoice
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xwkj.cost.model.ApplyInvoiceInfo">
+    insert into tbl_gb_apply_invoice (id, name, createtime, 
+      latetime, type, money, 
+      note, contract_id, money_back_id, 
+      status)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{latetime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, #{money,jdbcType=DECIMAL}, 
+      #{note,jdbcType=VARCHAR}, #{contractId,jdbcType=BIGINT}, #{moneyBackId,jdbcType=BIGINT}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xwkj.cost.model.ApplyInvoiceInfo">
+    insert into tbl_gb_apply_invoice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="latetime != null">
+        latetime,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+      <if test="contractId != null">
+        contract_id,
+      </if>
+      <if test="moneyBackId != null">
+        money_back_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="latetime != null">
+        #{latetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="contractId != null">
+        #{contractId,jdbcType=BIGINT},
+      </if>
+      <if test="moneyBackId != null">
+        #{moneyBackId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xwkj.cost.model.ApplyInvoiceInfo">
+    update tbl_gb_apply_invoice
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="latetime != null">
+        latetime = #{latetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="contractId != null">
+        contract_id = #{contractId,jdbcType=BIGINT},
+      </if>
+      <if test="moneyBackId != null">
+        money_back_id = #{moneyBackId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xwkj.cost.model.ApplyInvoiceInfo">
+    update tbl_gb_apply_invoice
+    set name = #{name,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      latetime = #{latetime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=INTEGER},
+      money = #{money,jdbcType=DECIMAL},
+      note = #{note,jdbcType=VARCHAR},
+      contract_id = #{contractId,jdbcType=BIGINT},
+      money_back_id = #{moneyBackId,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

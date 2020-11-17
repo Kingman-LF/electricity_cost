@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xwkj.cost.mapper.InvoiceInfoMapperManual">
+    <resultMap id="BaseResultMap" type="com.xwkj.cost.model.InvoiceInfo">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="ti_num" jdbcType="VARCHAR" property="tiNum" />
+        <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+        <result column="public_account_num" jdbcType="VARCHAR" property="publicAccountNum" />
+        <result column="opening_bank" jdbcType="VARCHAR" property="openingBank" />
+        <result column="place_of_opening" jdbcType="VARCHAR" property="placeOfOpening" />
+        <result column="mailing_addr" jdbcType="VARCHAR" property="mailingAddr" />
+        <result column="contact_name" jdbcType="VARCHAR" property="contactName" />
+        <result column="tel" jdbcType="VARCHAR" property="tel" />
+        <result column="contract_id" jdbcType="BIGINT" property="contractId" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, ti_num, account_name, public_account_num, opening_bank, place_of_opening, mailing_addr,
+    contact_name, tel, contract_id
+  </sql>
+    <select id="selectInvoiceInfoByContractId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tbl_gb_invoice_info t
+        where t.contract_id = #{value,jdbcType=BIGINT}
+    </select>
+</mapper>

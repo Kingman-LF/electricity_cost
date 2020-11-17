@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xwkj.cost.mapper.ReturnTicketInfoMapperManual" >
+  <resultMap id="BaseResultMap" type="com.xwkj.cost.model.ReturnTicketInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="ticket_holder" jdbcType="VARCHAR" property="ticketHolder" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="sub_contract_id" jdbcType="BIGINT" property="subContractId" />
+    <result column="is_enable" jdbcType="INTEGER" property="isEnable" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, money, create_time, ticket_holder, note, sub_contract_id, is_enable
+  </sql>
+
+  <select id="getReturnTicketInfoListBySubContractId" resultMap="BaseResultMap">
+    SELECT * FROM tbl_gb_return_ticket_info WHERE is_enable = 1 AND sub_contract_id = #{id}
+  </select>
+
+</mapper>

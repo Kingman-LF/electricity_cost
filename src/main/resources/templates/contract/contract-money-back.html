@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" th:src="@{js/jquery.min.js}"></script>
+</head>
+<body>
+<div class="x-nav">
+            <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+                <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+            </a>
+</div>
+<div class="layui-fluid">
+
+    <input class="layui-input" type="hidden" name="name" id="contractId">
+    <input class="layui-input" type="hidden" name="name" id="contractMoney">
+    <input class="layui-input" type="hidden" name="name" id="moneySum">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <div class="layui-card-header">
+                        <shiro:hasPermission name="contractcost:contract:back:add">
+                            <button class="layui-btn" id="addMoneyBackInfo"><i class="layui-icon"></i>添加</button>
+                        </shiro:hasPermission>
+                    </div>
+                </div>
+                    <table class="layui-table layui-form" id="tableMoneyBackInfo" lay-filter="tableMoneyBackInfo"></table>
+                    <script type="text/html" id="table-class">
+                        <shiro:hasPermission name="contractcost:contract:back:edit">
+                            <a class="layui-btn layui-btn-xs" lay-event="editor">编辑</a>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="contractcost:contract:back:delete">
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>                        </div>
+                        </shiro:hasPermission>
+                    </script>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script th:src="@{lib/layui/layui.js}" charset="utf-8"></script>
+
+<script>layui.use(['form', 'layer', 'jquery', 'table'],
+    function() {
+        var $ = layui.jquery,
+            layer = layui.layer,
+            table = layui.table,
+            form = layui.form;
+
+        var tableMoneyBackInfo = table.render({
+            elem: '#tableMoneyBackInfo',
+            id: 'tableMoneyBackInfo',
+            url: 'selectMoneyBackList', //请求数据的接口
+            page: true,
+            totalRow: true,
+            method: "post",
+            cols: [
+                [
+                    // {checkbox: true, width: 50},
+                    {
+                        field: 'arrivalMoney',
+                        align: 'center',
+                        title: '到款时间',
+                        templet: function (d) {
+                            return layui.util.toDateString(d.arrivalMoney, "yyyy-MM-dd")
+                        }
+                    },
+                    {
+                        field: 'money',
+                        title: '金额',
+                        align: 'center',
+                        totalRow: true
+                    },
+                    {
+                        title: '是否开发票',
+                        field: 'hasInvoice',
+                        align: 'center',
+                        templet: function (d) {
+                            var state = "";
+                            if (d.hasInvoice == 1) {
+                                state = "是";
+                            }
+                            else {
+                                state = "否";
+                            }
+                            return state;
+
+                        }
+                    },
+                    {
+                        title: '发票类型',
+                        field: 'invoiceType',
+                        align: 'center',
+                        templet: function (d) {
+                            var type = "";
+                            if (d.invoiceType == 1) {
+                                type = "专票";
+                            }
+                            else {
+                                type = "普票";
+                            }
+                            return type;
+
+                        }
+                    },
+                    {
+                        field: 'creatorName',
+                        align: 'center',
+                        title: '操作人'
+                    },
+                    {
+                        field: 'createTime',
+                        align: 'center',
+                        title: '操作时间',
+                        templet: function (d) {
+                            return layui.util.toDateString(d.createTime, "yyyy-MM-dd")
+                        }
+                    },
+                    {
+                        field: 'invaiceRemark',
+                        title: '回款备注',
+                        align: 'center'
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        fixed: 'right',
+                        toolbar: '#table-class'
+                    }
+                ]
+            ],
+            text: {
+                none: "暂无数据"
+            },where : {
+                contractId : $("#contractId").val()
+            }, response: {
+                statusCode: 1 //重新规定成功的状态码为 200，table 组件默认为 0
+            }
+            , parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data.total, //解析数据长度
+                    "data": res.data.list //解析数据列表
+                }
+            }
+        });
+
+        $.ajax({
+            url: 'getSumAndCount',
+            data: {contractId:$("#contractId").val()},
+            type: 'POST',
+            dataType: 'json',
+            success: function(response) {
+                if(response.success) {
+                    $('#moneySum').val(response.data.moneySum);
+                } else {
+                    layer.msg('添加失败！', {icon: 5,time:1000});
+                }
+
+            },
+            error: function() {
+                layer.msg('系统错误！', {icon: 5,time:1000});
+            }
+        });
+
+//监听工具条
+        table.on('tool(tableMoneyBackInfo)', function (obj) {
+            var data = obj.data;
+            if (obj.event == 'editor') {
+                layer.open({
+                    type:2,
+                    title:"修改回款信息",
+                    area: ['600px', '600px'],
+                    content: 'view?url=contract/money-back-edit',
+                    success:function(layero,index){
+                        // console.log(data)
+                        var body = layer.getChildFrame('body');
+                        var iframeWin = window[layero.find('iframe')[0]['name']];
+                        // iframeWin.getData(data)
+                        body.find("#arrivalMoney").val(layui.util.toDateString(data.arrivalMoney, "yyyy-MM-dd"));
+                        body.find("#money").val(data.money);
+                        body.find("#hasInvoice").val(data.hasInvoice);
+                        body.find("#id").val(data.id);
+                        body.find("#oneMoney").val(data.money);
+                        body.find("#contractMoney").val($('#contractMoney').val());
+                        body.find("#moneySum").val($('#moneySum').val());
+                        body.find("#contractId").val($('#contractId').val());
+                        body.find("#invoiceType").val(data.invoiceType);
+                        body.find("#invaiceRemark").val(data.invaiceRemark);
+                    },
+                    end: function () {
+                        $.ajax({
+                            url: 'getSumAndCount',
+                            data: {contractId:$("#contractId").val()},
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function(response) {
+                                if(response.success) {
+                                    $('#moneySum').val(response.data.moneySum);
+                                } else {
+                                    layer.msg('添加失败！', {icon: 5,time:1000});
+                                }
+
+                            },
+                            error: function() {
+                                layer.msg('系统错误！', {icon: 5,time:1000});
+                            }
+                        });
+
+                    }
+                });
+            }else if(obj.event == 'del'){
+                layer.confirm('确认要删除吗?', function(index){
+                    $.ajax({
+                        url: "deleteMoneyBack/"+data.id,
+                        dataType:"json",
+                        type: "DELETE",
+                        success: function(data){
+                            if(data.success) {
+                                layer.msg(data.msg, {icon: 6,time: 1500},function () {
+                                    table.reload('tableMoneyBackInfo');
+                                    relodSubContractInfo();
+                                });
+                            }else {
+                                layer.msg(data.msg,{icon:5,time:1000});
+                            }
+                        },
+                        error : function(response){
+                            layer.msg('系统错误！', {
+                                icon: 5
+                            });
+                        }
+                    });
+                });
+            }
+        });
+
+        $('#addMoneyBackInfo').click(function() {
+            layer.open({
+                type:2,
+                title:"添加回款信息",
+                area: ['600px', '600px'],
+                content: 'view?url=contract/money-back-add',
+                success:function(layero,index){
+                    // console.log(data)
+                    var body = layer.getChildFrame('body');
+                    var iframeWin = window[layero.find('iframe')[0]['name']];
+                    // iframeWin.getData(data)
+                    body.find("#contractId").val($('#contractId').val());
+                    body.find("#contractMoney").val($('#contractMoney').val());
+                    body.find("#moneySum").val($('#moneySum').val())
+                }
+            });
+        });
+
+    });
+</script>
+
+</html>

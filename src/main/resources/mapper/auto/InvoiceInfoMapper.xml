@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xwkj.cost.mapper.auto.InvoiceInfoMapper">
+  <resultMap id="BaseResultMap" type="com.xwkj.cost.model.InvoiceInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="ti_num" jdbcType="VARCHAR" property="tiNum" />
+    <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+    <result column="public_account_num" jdbcType="VARCHAR" property="publicAccountNum" />
+    <result column="opening_bank" jdbcType="VARCHAR" property="openingBank" />
+    <result column="place_of_opening" jdbcType="VARCHAR" property="placeOfOpening" />
+    <result column="mailing_addr" jdbcType="VARCHAR" property="mailingAddr" />
+    <result column="contact_name" jdbcType="VARCHAR" property="contactName" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="contract_id" jdbcType="BIGINT" property="contractId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, ti_num, account_name, public_account_num, opening_bank, place_of_opening, mailing_addr, 
+    contact_name, tel, contract_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_gb_invoice_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tbl_gb_invoice_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xwkj.cost.model.InvoiceInfo">
+    insert into tbl_gb_invoice_info (id, ti_num, account_name, 
+      public_account_num, opening_bank, place_of_opening, 
+      mailing_addr, contact_name, tel, 
+      contract_id)
+    values (#{id,jdbcType=BIGINT}, #{tiNum,jdbcType=VARCHAR}, #{accountName,jdbcType=VARCHAR}, 
+      #{publicAccountNum,jdbcType=VARCHAR}, #{openingBank,jdbcType=VARCHAR}, #{placeOfOpening,jdbcType=VARCHAR}, 
+      #{mailingAddr,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
+      #{contractId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xwkj.cost.model.InvoiceInfo">
+    insert into tbl_gb_invoice_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="tiNum != null">
+        ti_num,
+      </if>
+      <if test="accountName != null">
+        account_name,
+      </if>
+      <if test="publicAccountNum != null">
+        public_account_num,
+      </if>
+      <if test="openingBank != null">
+        opening_bank,
+      </if>
+      <if test="placeOfOpening != null">
+        place_of_opening,
+      </if>
+      <if test="mailingAddr != null">
+        mailing_addr,
+      </if>
+      <if test="contactName != null">
+        contact_name,
+      </if>
+      <if test="tel != null">
+        tel,
+      </if>
+      <if test="contractId != null">
+        contract_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="tiNum != null">
+        #{tiNum,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null">
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="publicAccountNum != null">
+        #{publicAccountNum,jdbcType=VARCHAR},
+      </if>
+      <if test="openingBank != null">
+        #{openingBank,jdbcType=VARCHAR},
+      </if>
+      <if test="placeOfOpening != null">
+        #{placeOfOpening,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingAddr != null">
+        #{mailingAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null">
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="contractId != null">
+        #{contractId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xwkj.cost.model.InvoiceInfo">
+    update tbl_gb_invoice_info
+    <set>
+      <if test="tiNum != null">
+        ti_num = #{tiNum,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null">
+        account_name = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="publicAccountNum != null">
+        public_account_num = #{publicAccountNum,jdbcType=VARCHAR},
+      </if>
+      <if test="openingBank != null">
+        opening_bank = #{openingBank,jdbcType=VARCHAR},
+      </if>
+      <if test="placeOfOpening != null">
+        place_of_opening = #{placeOfOpening,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingAddr != null">
+        mailing_addr = #{mailingAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null">
+        contact_name = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="contractId != null">
+        contract_id = #{contractId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xwkj.cost.model.InvoiceInfo">
+    update tbl_gb_invoice_info
+    set ti_num = #{tiNum,jdbcType=VARCHAR},
+      account_name = #{accountName,jdbcType=VARCHAR},
+      public_account_num = #{publicAccountNum,jdbcType=VARCHAR},
+      opening_bank = #{openingBank,jdbcType=VARCHAR},
+      place_of_opening = #{placeOfOpening,jdbcType=VARCHAR},
+      mailing_addr = #{mailingAddr,jdbcType=VARCHAR},
+      contact_name = #{contactName,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      contract_id = #{contractId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

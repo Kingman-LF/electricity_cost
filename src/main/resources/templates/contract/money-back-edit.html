@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body{
+            background: white;
+        }
+    </style>
+</head>
+
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form class="layui-form" id="addMoney">
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                <span class="x-red">*</span>到款时间
+                </label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" type="hidden" name="id" id="id">
+                    <input class="layui-input" type="hidden" name="contractId" id="contractId">
+                    <input class="layui-input" type="hidden" name="contractMoney" id="contractMoney">
+                    <input class="layui-input" type="hidden" name="moneySum" id="moneySum">
+                    <input class="layui-input" type="hidden" name="oneMoney" id="oneMoney">
+                    <input class="layui-input" type="hidden" id="invoiceType">
+                    <input class="layui-input" type="hidden" id="hasInvoice">
+                    <input type="text" name="arrivalMoney" id="arrivalMoney" lay-verify="arrivalMoney" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否开发票</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="hasInvoice" lay-filter="hasInvoice" value="1" title="是">
+                    <input type="radio" name="hasInvoice" lay-filter="hasInvoice" value="0" title="否">
+                </div>
+            </div>
+                <div class="layui-form-item" id="invType">
+                    <label class="layui-form-label">发票类型</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="invoiceType" lay-filter="invoiceType" value="1" title="专票">
+                        <input type="radio" name="invoiceType" lay-filter="invoiceType" value="2" title="普票">
+                    </div>
+                </div>
+                <div class="layui-form-item" id="appId">
+                    <label class="layui-form-label">请选择发票</label>
+                    <div class="layui-input-inline">
+                        <select name="applyInvoiceId" id="applyInvoiceId" lay-filter="applyInvoiceId">
+                            <option value="">请选择发票</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="money" class="layui-form-label">
+                        <span class="x-red">*</span>金额</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="money" name="money" required="" lay-verify="money" autocomplete="off" class="layui-input"></div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="invaiceRemark" class="layui-form-label">
+                        回款备注</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="invaiceRemark" name="invaiceRemark" required="" lay-verify="money" autocomplete="off" class="layui-input"></div>
+                </div>
+            <div class="layui-form-item">
+                <button class="layui-btn" lay-filter="LAY-moneyBack-add-submit" lay-submit="LAY-moneyBack-add-submit">修改</button></div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'layer','jquery','laydate'],
+    function() {
+        $ = layui.jquery;
+        var form = layui.form,
+            layer = layui.layer;
+          laydate = layui.laydate;
+        //日期
+        laydate.render({
+            elem: '#arrivalMoney'
+        });
+        var text = $('#money');
+        text.on('keyup',function () {
+            var num1 = parseFloat(text.val());
+            var num2 = parseFloat($('#contractMoney').val());
+            var num3 = parseFloat($('#moneySum').val());
+            var num4 = parseFloat($('#oneMoney').val());
+            console.log(num2);
+            console.log(num3);
+            console.log(num4);
+            if(num1>num2-num3+num4){
+                text.val(num2-num3+num4);
+            }
+        });
+
+        var status = $('#hasInvoice').val();
+        if(status==1){
+            $("input[name='hasInvoice'][value = '1']").attr("checked",true);
+            form.render();
+        }
+        if(status==0){
+            $("input[name='hasInvoice'][value = '0']").attr("checked",true);
+            form.render();
+        }
+
+        var statu = $('#invoiceType').val();
+        if(statu==1){
+            $("input[name='invoiceType'][value = '1']").attr("checked",true);
+            form.render();
+        }
+        if(statu==2){
+            $("input[name='invoiceType'][value = '2']").attr("checked",true);
+            form.render();
+        }
+        $.ajax({
+            url: 'getApplyInvoiceInfo',
+            dataType: 'json',
+            data: {
+                moneyBackId: $("#id").val()
+            }, //查询状态为正常的所有机构类型
+            type: 'post',
+            success: function (data) {
+                $('#applyInvoiceId').empty();
+                $('#applyInvoiceId').append(
+                    new Option(data.data[0].name, data.data[0].id));// 下拉菜单里添加元素
+                form.render();
+            }
+        });
+
+        form.on("select(applyInvoiceId)", function () {
+            $.ajax({
+                url: 'getApplyInvoiceInfo',
+                dataType: 'json',
+                data: {
+                    id: $("#applyInvoiceId").val()
+                }, //查询状态为正常的所有机构类型
+                type: 'post',
+                success: function (data) {
+                    $("#money").val(data.data[0].money)
+                }
+            });
+        });
+
+        form.on("radio(hasInvoice)", function (data) {
+            var val = data.value;
+            if (val == 0){
+                //不开发票
+                invType
+                $("#invType").hide();
+                $("#appId").hide();
+            }
+            else if (val == 1){
+                //开发票
+                $("#invType").show();
+                $("#appId").show();
+            }
+        });
+        form.on("radio(invoiceType)", function (data) {
+
+            $('#applyInvoiceId').empty();
+            $('#applyInvoiceId').append('<option value="">请选择发票</option>')
+            var val = data.value;
+            if (val == 1){
+                //专票
+                //获取发票信息
+                $.ajax({
+                    url: 'getApplyInvoiceInfo',
+                    dataType: 'json',
+                    data: {
+                        contractId: $("#contractId").val(),
+                        type:val
+                    }, //查询状态为正常的所有机构类型
+                    type: 'post',
+                    success: function (data) {
+                        $.each(data.data, function (index, item) {
+                            $('#applyInvoiceId').append(
+                                new Option(item.name, item.id));// 下拉菜单里添加元素
+                        });
+                        layui.form.render("select");
+                    }
+                });
+            }else if (val == 2){
+                //普票
+                //获取发票信息
+                $.ajax({
+                    url: 'getApplyInvoiceInfo',
+                    dataType: 'json',
+                    data: {
+                        contractId: $("#contractId").val(),
+                        type:val
+                    }, //查询状态为正常的所有机构类型
+                    type: 'post',
+                    success: function (data) {
+                        $.each(data.data, function (index, item) {
+                            $('#applyInvoiceId').append(
+                                new Option(item.name, item.id));// 下拉菜单里添加元素
+                        });
+                        layui.form.render("select");
+                    }
+                });
+            }
+        });
+
+        //监听提交
+        form.on('submit(LAY-moneyBack-add-submit)', function(data) {
+            console.log(JSON.stringify(data.field));
+            if(data.field.id == ""){
+                $.ajax({
+                    url: 'insertMoneyBackInfo',
+                    data: $("#addMoney").serialize(),
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function(response) {
+                        if(response.success) {
+                            layer.msg('添加成功！', {icon: 6,time:1000});
+                            setTimeout(function(){
+                                parent.layui.table.reload('tableMoneyBackInfo', response.data);
+                                //当你在iframe页面关闭自身时
+                                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                                parent.layer.close(index); //再执行关闭
+                            },1000);
+                        } else {
+                            layer.msg('添加失败！', {icon: 5,time:1000});
+                        }
+
+                    },
+                    error: function() {
+                        layer.msg('系统错误！', {icon: 5,time:1000});
+                    }
+                });
+            }else{
+                $.ajax({
+                    url: 'updateMoneyBackInfo',
+                    data:$("#addMoney").serialize(),
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function(respone) {
+                        if(respone.success) {
+                            layer.msg('修改成功！', {icon: 6,time:1000});
+                            setTimeout(function(){
+                                parent.layui.table.reload('tableMoneyBackInfo', respone.data);
+                                //当你在iframe页面关闭自身时
+                                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                                parent.layer.close(index); //再执行关闭
+                            },1000);
+                        } else {
+                            layer.msg('修改失败！', {icon: 5,time:1000});
+                        }
+
+                    },
+                    error: function() {
+                        layer.msg('系统错误！', {icon: 5,time:1000});
+                    }
+                });
+            }
+            return false;
+        });
+
+    });</script>
+</body>
+
+</html>

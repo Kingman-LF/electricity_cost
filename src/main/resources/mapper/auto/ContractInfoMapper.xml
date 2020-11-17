@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xwkj.cost.mapper.auto.ContractInfoMapper">
+  <resultMap id="BaseResultMap" type="com.xwkj.cost.model.ContractInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="contract_name" jdbcType="VARCHAR" property="contractName" />
+    <result column="contract_num" jdbcType="VARCHAR" property="contractNum" />
+    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    <result column="item_manager" jdbcType="VARCHAR" property="itemManager" />
+    <result column="customer" jdbcType="VARCHAR" property="customer" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="customer_tel" jdbcType="VARCHAR" property="customerTel" />
+    <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="last_modified_time" jdbcType="TIMESTAMP" property="lastModifiedTime" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="last_modifier" jdbcType="BIGINT" property="lastModifier" />
+    <result column="contract_cost" jdbcType="DECIMAL" property="contractCost" />
+    <result column="contract_money" jdbcType="DECIMAL" property="contractMoney" />
+    <result column="special_instructions" jdbcType="VARCHAR" property="specialInstructions" />
+    <result column="premium" jdbcType="VARCHAR" property="premium" />
+    <result column="conclusion" jdbcType="VARCHAR" property="conclusion" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, contract_name, contract_num, item_name, item_manager, customer, company, customer_tel, 
+    creat_time, last_modified_time, creator, last_modifier, contract_cost, contract_money, 
+    special_instructions, premium, conclusion, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_gb_contract_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tbl_gb_contract_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xwkj.cost.model.ContractInfo">
+    insert into tbl_gb_contract_info (id, contract_name, contract_num, 
+      item_name, item_manager, customer, 
+      company, customer_tel, creat_time, 
+      last_modified_time, creator, last_modifier, 
+      contract_cost, contract_money, special_instructions, 
+      premium, conclusion, status
+      )
+    values (#{id,jdbcType=BIGINT}, #{contractName,jdbcType=VARCHAR}, #{contractNum,jdbcType=VARCHAR}, 
+      #{itemName,jdbcType=VARCHAR}, #{itemManager,jdbcType=VARCHAR}, #{customer,jdbcType=VARCHAR}, 
+      #{company,jdbcType=VARCHAR}, #{customerTel,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, 
+      #{lastModifiedTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=BIGINT}, #{lastModifier,jdbcType=BIGINT}, 
+      #{contractCost,jdbcType=DECIMAL}, #{contractMoney,jdbcType=DECIMAL}, #{specialInstructions,jdbcType=VARCHAR}, 
+      #{premium,jdbcType=VARCHAR}, #{conclusion,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xwkj.cost.model.ContractInfo">
+    insert into tbl_gb_contract_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="contractName != null">
+        contract_name,
+      </if>
+      <if test="contractNum != null">
+        contract_num,
+      </if>
+      <if test="itemName != null">
+        item_name,
+      </if>
+      <if test="itemManager != null">
+        item_manager,
+      </if>
+      <if test="customer != null">
+        customer,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
+      <if test="customerTel != null">
+        customer_tel,
+      </if>
+      <if test="creatTime != null">
+        creat_time,
+      </if>
+      <if test="lastModifiedTime != null">
+        last_modified_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="lastModifier != null">
+        last_modifier,
+      </if>
+      <if test="contractCost != null">
+        contract_cost,
+      </if>
+      <if test="contractMoney != null">
+        contract_money,
+      </if>
+      <if test="specialInstructions != null">
+        special_instructions,
+      </if>
+      <if test="premium != null">
+        premium,
+      </if>
+      <if test="conclusion != null">
+        conclusion,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="contractName != null">
+        #{contractName,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNum != null">
+        #{contractNum,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemManager != null">
+        #{itemManager,jdbcType=VARCHAR},
+      </if>
+      <if test="customer != null">
+        #{customer,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="customerTel != null">
+        #{customerTel,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedTime != null">
+        #{lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="lastModifier != null">
+        #{lastModifier,jdbcType=BIGINT},
+      </if>
+      <if test="contractCost != null">
+        #{contractCost,jdbcType=DECIMAL},
+      </if>
+      <if test="contractMoney != null">
+        #{contractMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="specialInstructions != null">
+        #{specialInstructions,jdbcType=VARCHAR},
+      </if>
+      <if test="premium != null">
+        #{premium,jdbcType=VARCHAR},
+      </if>
+      <if test="conclusion != null">
+        #{conclusion,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xwkj.cost.model.ContractInfo">
+    update tbl_gb_contract_info
+    <set>
+      <if test="contractName != null">
+        contract_name = #{contractName,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNum != null">
+        contract_num = #{contractNum,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemManager != null">
+        item_manager = #{itemManager,jdbcType=VARCHAR},
+      </if>
+      <if test="customer != null">
+        customer = #{customer,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="customerTel != null">
+        customer_tel = #{customerTel,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedTime != null">
+        last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="lastModifier != null">
+        last_modifier = #{lastModifier,jdbcType=BIGINT},
+      </if>
+      <if test="contractCost != null">
+        contract_cost = #{contractCost,jdbcType=DECIMAL},
+      </if>
+      <if test="contractMoney != null">
+        contract_money = #{contractMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="specialInstructions != null">
+        special_instructions = #{specialInstructions,jdbcType=VARCHAR},
+      </if>
+      <if test="premium != null">
+        premium = #{premium,jdbcType=VARCHAR},
+      </if>
+      <if test="conclusion != null">
+        conclusion = #{conclusion,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xwkj.cost.model.ContractInfo">
+    update tbl_gb_contract_info
+    set contract_name = #{contractName,jdbcType=VARCHAR},
+      contract_num = #{contractNum,jdbcType=VARCHAR},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      item_manager = #{itemManager,jdbcType=VARCHAR},
+      customer = #{customer,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      customer_tel = #{customerTel,jdbcType=VARCHAR},
+      creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=BIGINT},
+      last_modifier = #{lastModifier,jdbcType=BIGINT},
+      contract_cost = #{contractCost,jdbcType=DECIMAL},
+      contract_money = #{contractMoney,jdbcType=DECIMAL},
+      special_instructions = #{specialInstructions,jdbcType=VARCHAR},
+      premium = #{premium,jdbcType=VARCHAR},
+      conclusion = #{conclusion,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html class="x-admin-sm"  xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">>
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="stylesheet" href="./lib/layui/css/layui.css" th:href="@{/lib/layui/css/layui.css}">
+    <link rel="stylesheet" href="css/bootstrapStyle/bootstrapStyle.css" type="text/css" th:href="@{/css/bootstrapStyle.css}">
+    <link rel="stylesheet" href="./css/font.css" th:href="@{/css/font.css}">
+    <link rel="stylesheet" href="./css/xadmin.css" th:href="@{/css/xadmin.css}">
+    <script src="./lib/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js" th:src="@{/js/xadmin.js}"></script>
+    <script type="text/javascript" src="./comment/messageAlert.js" th:src="@{/comment/messageAlert.js}"></script>
+    <link rel="stylesheet" href="./css/metroStyle.css" th:href="@{/css/metroStyle.css}">
+    <script src="./js/jquery.ztree.all.min.js" th:src="@{/js/jquery.ztree.all.min.js}"></script>
+    <style>
+        .layui-card-header{
+            border:none;
+        }
+        .layui-card-header:first-child{
+            border-bottom: 1px solid #f3f3f3;
+        }
+        .layui-card-body p{
+            line-height: 32px;
+            font-size: 14px;
+            color: #333333;
+            padding: 5px 0 ;
+        }
+        .layui-badge{
+            background-color: transparent;
+            width: 100px;
+            margin-right: 10px;
+            text-align:justify;
+            text-justify:distribute-all-lines;/*ie6-8*/
+            text-align-last:justify;/* ie9*/
+            -moz-text-align-last:justify;/*ff*/
+            -webkit-text-align-last:justify;/*chrome 20+*/
+        }
+    </style>
+</head>
+<body>
+<div class="x-nav">
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+    </a>
+</div>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md6">
+            <div class="layui-card" style="min-height: 300px">
+                <div class="layui-card-header">
+                    合同详情
+                </div>
+                <input type="hidden" id="subContractId">
+                <div class="layui-card-header">
+                    <div class="layui-col-md6 layui-col-xs12">
+                        <span class="layui-badge layui-bg-blue">合同编号</span>
+                        <input style="width: 150px"  type="text" name="subContractNum" id="subContractNum" lay-verify="title" autocomplete="off" placeholder="请输入合同编号" class="layui-input-inline">
+                    </div>
+                    <div class="layui-col-md6 layui-col-xs12">
+                        <span class="layui-badge layui-bg-blue">成本类型</span>
+                        <input style="width: 150px"  type="text" name="costTypeName" id="costTypeName" lay-verify="title" autocomplete="off" placeholder="请输入成本类型" class="layui-input-inline">
+                        <input id="costTypeId" type="hidden" name="costTypeId" />
+                        <div class="ztree" id="treeDiv" style="z-index:1000;background:white;display:none; position: absolute;border:1px solid #4aa5ff;width:200px;">
+                            <ul id="tree"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-card-header">
+                    <div class="layui-col-md6 layui-col-xs12">
+                        <span class="layui-badge layui-bg-blue">合同金额</span>
+                        <input style="width: 150px"  type="text" name="costMoney" id="costMoney" lay-verify="title" autocomplete="off" placeholder="请输入合同金额" class="layui-input-inline">
+                    </div>
+                    <div class="layui-col-md6 layui-col-xs12">
+                        <span class="layui-badge layui-bg-blue">已付款</span>
+                        <input style="width: 150px" readonly type="text" name="subContractCost" id="subContractCost" lay-verify="title" autocomplete="off" placeholder="请输入已付款" class="layui-input-inline">
+                    </div>
+                </div>
+                <div class="layui-card-header">
+                    <div class="layui-col-md6 layui-col-xs12">
+                        <span class="layui-badge layui-bg-blue">乙方单位</span>
+                        <input style="width: 150px" type="text" name="company" id="company" lay-verify="title" autocomplete="off" placeholder="请输入乙方单位" class="layui-input-inline">
+                    </div>
+                    <div class="layui-col-md6 layui-col-xs12">
+                        <span class="layui-badge layui-bg-blue">乙方联系人</span>
+                        <input style="width: 150px" type="text" name="payee" id="payee" lay-verify="title" autocomplete="off" placeholder="请输入乙方联系人" class="layui-input-inline">
+                    </div>
+                </div>
+                <div class="layui-card-header">
+                    <div class="layui-col-md6 layui-col-xs12">
+                        <span class="layui-badge layui-bg-blue">乙方电话</span>
+                        <input style="width: 150px" type="text" name="payeeTel" id="payeeTel" lay-verify="title" autocomplete="off" placeholder="请输入乙方电话" class="layui-input-inline">
+                    </div>
+                    <div class="layui-col-md6 layui-col-xs12">
+                        <span class="layui-badge layui-bg-blue">备注</span>
+                        <input style="width: 150px"  type="text" name="subContractName" id="subContractName" lay-verify="title" autocomplete="off" placeholder="请输入备注" class="layui-input-inline">
+                    </div>
+                </div>
+                <div class="layui-card-header">
+                    <div class="layui-col-md6 layui-col-xs12">
+                        <span class="layui-badge layui-bg-blue">合同状态</span>
+                        <select name="status" id="status">
+                            <option value="1">未完成</option>
+                            <option value="2">已完成</option>
+                        </select>
+                    </div>
+                </div>
+                <shiro:hasPermission name="contractcost:contract:cost:subcontract:details:edit">
+                    <div class="layui-card-header">
+                        <button type="button" class="layui-btn" id="edit">修改成本合同</button>
+                    </div>
+                </shiro:hasPermission>
+            </div>
+        </div>
+        <div class="layui-col-md2"  style="min-height: 300px">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    附件下载
+                </div>
+                <div style="text-align: center;padding-bottom: 30px">
+                    <img src="img/file.png" th:src="@{/img/file.png}">
+                    <shiro:hasPermission name="contractcost:contract:cost:subcontract:details:download">
+                        <button type="button" class="layui-btn" id="download"><i class="layui-icon layui-icon-download-circle"></i>下载文件</button>
+                    </shiro:hasPermission>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    付款明细
+                </div>
+                <table class="layui-table layui-form" id="detailsTable" lay-filter="detailsTable">
+                </table>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    回票明细
+                </div>
+                <table class="layui-table layui-form" id="returnTicketTable" lay-filter="returnTicketTable">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="barDemo">
+    <shiro:hasPermission name="contractcost:contract:cost:subcontract:editPay">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="contractcost:contract:cost:subcontract:deletePay">
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </shiro:hasPermission>
+</script>
+<script type="text/html" id="barDemo1">
+    <shiro:hasPermission name="contractcost:contract:cost:subcontract:editReturnTicket">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="contractcost:contract:cost:subcontract:deleteReturnTicket">
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </shiro:hasPermission>
+</script>
+</body>
+<script>
+    window.onload=function () {
+        layui.use(['laydate', 'form','table','layer'], function() {
+            var laydate = layui.laydate,
+                form = layui.form,
+                layer = layui.layer,
+                table = layui.table;
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#start' //指定元素
+            });
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#end' //指定元素
+            });
+
+            var setting = {
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+                check: {
+                    enable: true,
+                    chkStyle: "radio",//值为checkbox或者radio表示
+                    radioType:"all",
+                },
+                //回调
+                callback: {
+                    onClick: function (e, treeId, treeNode, clickFlag) {
+                        var ztree = $.fn.zTree.getZTreeObj("tree");
+                        ztree.checkNode(treeNode, !treeNode.checked, true);
+                    },
+                    view: {
+                        fontCss: { fontSize: "14px" }
+                    }
+                }
+            }
+
+            $.ajax({
+                url: "getSubContractInfo/"+$('#subContractId').val(),
+                dataType:"json",
+                type: "GET",
+                async: false,
+                success: function(data){
+                    if(data.success) {
+                        var obj = data.data;
+                        $('#subContractName').val(obj.subContractName);
+                        $('#subContractNum').val(obj.subContractNum);
+                        $('#costMoney').val(obj.costMoney);
+                        $('#subContractCost').val(obj.subContractCost);
+                        $('#company').val(obj.company);
+                        $('#payee').val(obj.payee);
+                        $('#payeeTel').val(obj.payeeTel);
+                        $('#costTypeName').val(obj.costTypeName);
+                        $('#costTypeId').val(obj.costTypeId);
+                        $('#status').val(obj.status);
+
+                        //加载菜单树
+                        $.ajax({
+                            url: 'getCostTypeInfoList',
+                            type: 'GET',
+                            dataType: 'json',
+                            async: false,
+                            success: function(data) {
+                                if(data.success) {
+                                    var ztree = $.fn.zTree.init($("#tree"), setting, data.data);
+                                    ztree.expandAll(true);
+                                    var disabledNode = ztree.getNodeByParam("level", 0);
+                                    ztree.setChkDisabled(disabledNode, true);
+
+                                    var str = obj.costTypeId;
+                                    var arr = str.split(",");
+                                    var node = ztree.getNodeByParam("id",arr[arr.length - 1]);
+                                    node.checked = true;
+                                    ztree.updateNode(node);
+
+                                } else {
+                                    layer.msg('加载模块数据节点失败', {
+                                        icon: 5
+                                    });
+                                }
+                            },
+                            error: function(data) {
+                                layer.msg(data.msg, {
+                                    icon: 5
+                                });
+                            }
+                        });
+                    }else {
+                        layer.msg(data.msg,{icon:5,time:1000});
+                    }
+                },
+                error : function(response){
+                    layer.msg('系统错误！', {
+                        icon: 5
+                    });
+                }
+            });
+
+
+            //下拉框显示 隐藏
+            $('#costTypeName').on("click",function () {
+                showTree1();
+            });
+            function showTree1(){
+                if($('#treeDiv').css('display') == 'none'){
+                    $('#treeDiv').css('display','block');
+                } else{
+                    $('#treeDiv').css('display','none');
+                }
+                $("body").bind("mousedown", onBodyDownByActionType1);
+            }
+            function hideTree1() {
+                $('#treeDiv').css('display','none');
+                $("body").unbind("mousedown", onBodyDownByActionType1);
+                return false;
+            }
+
+            //区域外点击事件
+            function onBodyDownByActionType1(event) {
+                var zTreeOjb = $.fn.zTree.getZTreeObj("tree");
+                var nodes = zTreeOjb.getCheckedNodes(true);//在提交表单之前将选中的checkbox收集
+                var node = nodes[0];
+                if (typeof(node) != "undefined"){
+                    $('#costTypeName').val(node.name);
+                    var s=node.id;
+                    while(node=node.getParentNode())s=node.id+','+s;
+                    $('#costTypeId').val(s);
+                }else {
+                    $('#costTypeName').val("");
+                    $('#costTypeId').val("");
+                }
+                if (event.target.id.indexOf('tree') == -1){
+                    if(event.target.id != 'selectDevType'){
+                        hideTree1();
+                    }
+                }
+
+            }
+
+            var detailsTable = table.render({
+                elem: '#detailsTable'
+                ,id:'detailsTable'
+                ,url: 'getSubContractCostListBySubContractId' //数据接口
+                ,method : 'get'
+                ,page: true //开启分页
+                ,where:{
+                    id : $('#subContractId').val()
+                }
+                ,limit : 10
+                ,text:{
+                    none:"暂无数据！"
+                }
+                ,cols: [
+                    [
+                        {field: 'createTime',align: 'center', title: '付款日期', templet: function (d) {
+                                return layui.util.toDateString(d.createTime, "yyyy-MM-dd")
+                            }}
+                        ,{field: 'cost',align: 'center', title: '付款金额'}
+                        ,{field: 'payee',align: 'center', title: '收款方'}
+                        ,{field: 'note',align: 'center', title: '备注'}
+                        ,{title:'操作',align: 'center',toolbar: '#barDemo'}
+                    ]
+                ]
+                ,response: {
+                    statusCode: 1 //重新规定成功的状态码为 200，table 组件默认为 0
+                }
+                ,parseData: function(res) { //将原始数据解析成 table 组件所规定的数据
+                    return {
+                        "code": res.code, //解析接口状态
+                        "msg": res.msg, //解析提示文本
+                        "count": res.data.total, //解析数据长度
+                        "data": res.data.list //解析数据列表
+                    }
+                }
+            });
+            table.on('tool(detailsTable)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                var data = obj.data; //获得当前行数据
+                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                var tr = obj.tr; //获得当前行 tr 的DOM对象
+                if(obj.event == 'del'){
+                    layer.confirm('确认要删除吗?', function(index){
+                        $.ajax({
+                            url: "deleteSubContractCost/"+data.id,
+                            dataType:"json",
+                            type: "DELETE",
+                            success: function(data){
+                                if(data.success) {
+                                    layer.msg(data.msg, {icon: 6,time: 1500},function () {
+                                        table.reload('detailsTable');
+                                        relodSubContractInfo();
+                                    });
+                                }else {
+                                    layer.msg(data.msg,{icon:5,time:1000});
+                                }
+                            },
+                            error : function(response){
+                                layer.msg('系统错误！', {
+                                    icon: 5
+                                });
+                            }
+                        });
+                    });
+                } else if(obj.event == 'edit'){ //编辑
+                    layer.open({
+                        type: 2,
+                        title: "修改其他成本信息",
+                        closeBtn: 1,
+                        content:'view?url=contract/cost-history-edit',
+                        area: ['35%', '50%'],
+                        btn: ['确定', '取消'],
+                        shadeClose:true,
+                        yes: function(index, layero) {
+                            var submitID = 'edit',
+                                submit = layero.find('iframe').contents().find('#' + submitID);
+                            submit.trigger('click');
+                        },
+                        success: function (layero, index) {
+                            var body = layer.getChildFrame('body', index);
+                            body.find("#id").val(data.id);
+                            body.find("#subContractId").val(data.subContractId);
+                            body.find("#createTime").val(layui.util.toDateString(data.createTime, "yyyy-MM-dd"));
+                            body.find("#cost").val(data.cost);
+                            body.find("#beforeCost").val(data.cost);
+                            body.find("#payee").val(data.payee);
+                            body.find("#note").val(data.note);
+                        }
+                    })
+                }
+            });
+
+            $('#edit').on('click',function () {
+                $.ajax({
+                    url: "updateSubContractInfo",
+                    dataType:"json",
+                    data:{
+                        id:$('#subContractId').val(),
+                        subContractNum:$('#subContractNum').val(),
+                        costTypeId:$('#costTypeId').val(),
+                        costMoney:$('#costMoney').val(),
+                        subContractName:$('#subContractName').val(),
+                        company:$('#company').val(),
+                        payee:$('#payee').val(),
+                        payeeTel:$('#payeeTel').val(),
+                        status:$('#status').val()
+                    },
+                    type: "PUT",
+                    success: function(data){
+                        if(data.success) {
+                            layer.msg(data.msg,{icon:6,time:1000});
+                        }else {
+                            layer.msg(data.msg,{icon:5,time:1000});
+                        }
+                    },
+                    error : function(response){
+                        layer.msg('系统错误！', {
+                            icon: 5
+                        });
+                    }
+                });
+            });
+
+            //下载成本合同附件
+            $("#download").on('click',function () {
+                $.ajax({
+                    url:"getSubEnclosureInfoListBySubContractId/"+$('#subContractId').val()
+                    ,type:"get"
+                    ,async:"false"
+                    ,success:function(res){
+                        if (res.success){
+                            if(res.data.length == 0){
+                                layer.msg("该合同没有附件！",{icon:'5',time:'1000'})
+                            }else{
+                                $.each(res.data,function (key,val) {
+                                    // console.log(val.id+"  "+val.roomName)
+                                    // console.log(key+"  "+val.filePath)
+                                    //下载文件
+                                    var fileName = val.filePath.substr(val.filePath.lastIndexOf("/")+1)
+                                    var a = document.createElement('a');
+                                    var evt = document.createEvent('HTMLEvents')
+                                    var url = 'fileDownload?filePath='+val.filePath;
+                                    evt.initEvent('click', false, false)
+                                    a.href=url;
+                                    a.dispatchEvent(evt);
+                                    a.download = fileName;
+                                    a.click()
+                                })
+                            }
+                        }
+                    }
+                    ,error:function(){
+                        layer.msg("系统错误！",{icon:"5",time:1000})
+                    }
+                })
+            });
+            var returnTicketTable = table.render({
+                elem: '#returnTicketTable'
+                ,id:'returnTicketTable'
+                ,url: 'getReturnTicketInfoList' //数据接口
+                ,method : 'get'
+                ,page: true //开启分页
+                ,where:{
+                    id : $('#subContractId').val()
+                }
+                ,limit : 10
+                ,text:{
+                    none:"暂无数据！"
+                }
+                ,cols: [
+                    [
+                        {field: 'createTime',align: 'center', title: '回票日期', templet: function (d) {
+                                return layui.util.toDateString(d.createTime, "yyyy-MM-dd")
+                            }}
+                        ,{field: 'money',align: 'center', title: '回票金额'}
+                        ,{field: 'ticketHolder',align: 'center', title: '回票人'}
+                        ,{field: 'note',align: 'center', title: '备注'}
+                        ,{title:'操作',align: 'center',toolbar: '#barDemo1'}
+                    ]
+                ]
+                ,response: {
+                    statusCode: 1 //重新规定成功的状态码为 200，table 组件默认为 0
+                }
+                ,parseData: function(res) { //将原始数据解析成 table 组件所规定的数据
+                    return {
+                        "code": res.code, //解析接口状态
+                        "msg": res.msg, //解析提示文本
+                        "count": res.data.total, //解析数据长度
+                        "data": res.data.list //解析数据列表
+                    }
+                }
+            });
+
+            table.on('tool(returnTicketTable)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                var data = obj.data; //获得当前行数据
+                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                var tr = obj.tr; //获得当前行 tr 的DOM对象
+                if(obj.event == 'del'){
+                    layer.confirm('确认要删除吗?', function(index){
+                        $.ajax({
+                            url: "deleteReturnTicketInfo/"+data.id,
+                            dataType:"json",
+                            type: "DELETE",
+                            success: function(data){
+                                if(data.success) {
+                                    layer.msg(data.msg, {icon: 6,time: 1500},function () {
+                                        table.reload('returnTicketTable');
+                                        relodSubContractInfo();
+                                    });
+                                }else {
+                                    layer.msg(data.msg,{icon:5,time:1000});
+                                }
+                            },
+                            error : function(response){
+                                layer.msg('系统错误！', {
+                                    icon: 5
+                                });
+                            }
+                        });
+                    });
+                } else if(obj.event == 'edit'){ //编辑
+                    layer.open({
+                        type: 2,
+                        title: "修改回票信息",
+                        closeBtn: 1,
+                        content:'view?url=contract/return-ticket-edit',
+                        area: ['35%', '50%'],
+                        btn: ['确定', '取消'],
+                        shadeClose:true,
+                        yes: function(index, layero) {
+                            var submitID = 'edit',
+                                submit = layero.find('iframe').contents().find('#' + submitID);
+                            submit.trigger('click');
+                        },
+                        success: function (layero, index) {
+                            var body = layer.getChildFrame('body', index);
+                            body.find("#id").val(data.id);
+                            body.find("#createTime").val(layui.util.toDateString(data.createTime, "yyyy-MM-dd"));
+                            body.find("#money").val(data.money);
+                            body.find("#ticketHolder").val(data.ticketHolder);
+                            body.find("#note").val(data.note);
+                        }
+                    })
+                }
+            });
+        });
+    }
+
+    window.relodSubContractInfo = function () {
+        $.ajax({
+            url: "getSubContractInfo/"+$('#subContractId').val(),
+            dataType:"json",
+            type: "GET",
+            success: function(data){
+                if(data.success) {
+                    var obj = data.data;
+                    $('#subContractName').val(obj.subContractName);
+                    $('#subContractNum').val(obj.subContractNum);
+                    $('#costMoney').val(obj.costMoney);
+                    $('#subContractCost').val(obj.subContractCost);
+                    $('#company').val(obj.company);
+                    $('#payee').val(obj.payee);
+                    $('#payeeTel').val(obj.payeeTel);
+                    // $('#costTypeName').val(obj.costTypeName);
+                    $('#status').val(obj.status);
+                }else {
+                    layer.msg(data.msg,{icon:5,time:1000});
+                }
+            },
+            error : function(response){
+                layer.msg('系统错误！', {
+                    icon: 5
+                });
+            }
+        });
+    }
+</script>
+
+</html>

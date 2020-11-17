@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xwkj.cost.mapper.SubContractInfoMapperManual">
+  <resultMap id="BaseResultMap" type="com.xwkj.cost.model.SubContractInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sub_contract_name" jdbcType="VARCHAR" property="subContractName" />
+    <result column="sub_contract_num" jdbcType="VARCHAR" property="subContractNum" />
+    <result column="sub_contract_cost" jdbcType="DECIMAL" property="subContractCost" />
+    <result column="pay_item" jdbcType="VARCHAR" property="payItem" />
+    <result column="cost_money" jdbcType="DECIMAL" property="costMoney" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="payee" jdbcType="VARCHAR" property="payee" />
+    <result column="payee_tel" jdbcType="VARCHAR" property="payeeTel" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="contract_id" jdbcType="BIGINT" property="contractId" />
+    <result column="cost_type_id" jdbcType="VARCHAR" property="costTypeId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sub_contract_name, sub_contract_num, sub_contract_cost, pay_item, cost_money,
+    status, payee, payee_tel, create_time, company, contract_id, cost_type_id
+  </sql>
+
+  <select id="getSubContractInfoListByContractId" resultMap="BaseResultMap">
+    SELECT *
+    FROM tbl_gb_sub_contract_info
+    WHERE contract_id = #{contractId} AND status != 0
+    <if test="costTypeId != null and costTypeId != ''">
+      AND cost_type_id = #{costTypeId}
+    </if>
+    order by create_time desc,id desc
+  </select>
+
+  <select id="getSubContractInfoByCondition" resultMap="BaseResultMap">
+    SELECT *
+    FROM tbl_gb_sub_contract_info
+    WHERE status != 0 and contract_id = #{contractId}
+    <if test="costTypeId != null and costTypeId != ''">
+      AND cost_type_id = #{costTypeId}
+    </if>
+    <if test="costMoney != null">
+      AND cost_money = #{costMoney}
+    </if>
+    <if test="createTime != null">
+      AND DATE_FORMAT(create_time,'%Y-%m-%d') = DATE_FORMAT(#{createTime},'%Y-%m-%d')
+    </if>
+  </select>
+
+</mapper>

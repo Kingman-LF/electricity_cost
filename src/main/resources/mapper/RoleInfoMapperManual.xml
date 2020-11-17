@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xwkj.cost.mapper.RoleInfoMapperManual" >
+  <resultMap id="BaseResultMap" type="com.xwkj.cost.model.RoleInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="role_desc" property="roleDesc" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="BIGINT" />
+    <result column="is_enable" property="isEnable" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, role_name, role_desc, create_time, creator, is_enable
+  </sql>
+
+  <select id="getRoleInfoList" resultMap="BaseResultMap">
+    SELECT * FROM tbl_gb_role_info WHERE is_enable = 1
+    <if test="roleName != null and roleName != ''">
+      AND role_name LIKE CONCAT('%',#{roleName},'%')
+    </if>
+    <if test="startTime != null">
+      AND create_time <![CDATA[ > ]]> #{startTime}
+    </if>
+    <if test="endTime != null">
+      AND create_time <![CDATA[ < ]]> #{endTime}
+    </if>
+  </select>
+
+  <select id="getRoleInfoByRoleName" resultMap="BaseResultMap">
+    SELECT * FROM tbl_gb_role_info WHERE is_enable = 1 AND role_name = #{roleName}
+  </select>
+
+  <insert id="insertRoleInfoAndPermissionInfoRelated">
+    INSERT INTO tbl_gb_role_perm_related(role_id,perm_id) VALUES(#{roleId},#{permId})
+  </insert>
+  
+  <delete id="deleteRoleInfoAndPermissionInfoRelatedByRoleId">
+    DELETE FROM tbl_gb_role_perm_related WHERE role_id =#{roleId}
+  </delete>
+  <select id="getRoleList" resultMap="BaseResultMap">
+    SELECT * FROM tbl_gb_role_info WHERE is_enable = 1
+  </select>
+  <select id="getRoleListByUserId" resultMap="BaseResultMap">
+    SELECT
+        a.*
+    FROM
+        tbl_gb_role_info a
+        LEFT JOIN tbl_gb_user_role_related b ON a.id = b.role_id
+    WHERE
+        b.user_id = #{id}
+    AND is_enable = 1
+  </select>
+  <select id="getRoleInfoByUserInfoId" resultMap="BaseResultMap">
+    SELECT b.* FROM `tbl_gb_user_role_related` a
+    INNER JOIN tbl_gb_role_info b on a.role_id = b.id
+    WHERE a.user_id = #{userId}
+  </select>
+
+  <select id="getPermissionInfoListByRoleId" resultType="java.lang.Long">
+    SELECT perm_id FROM tbl_gb_role_perm_related WHERE role_id = #{roleId}
+  </select>
+
+</mapper>

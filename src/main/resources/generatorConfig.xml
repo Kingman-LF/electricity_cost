@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <!--
+        targetRuntime="MyBatis3Simple":生成简单版的CRUD
+        MyBatis3:豪华版
+
+     -->
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+
+        <!-- TKmybatis配置
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <plugin type="${mapper.plugin}">
+            <property name="mappers" value="${mapper.Mapper}"/>
+        </plugin>-->
+
+        <commentGenerator type="com.xwkj.cost.util.MyCommentGenerator" >
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+
+
+        <!-- jdbcConnection：指定如何连接到目标数据库 -->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql:///electricity_cost?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false&amp;autoReconnect=true&amp;nullCatalogMeansCurrent=true&amp;failOverReadOnly=false&amp;&amp;serverTimezone=UTC"
+                        userId="root"
+                        password="root">
+        </jdbcConnection>
+        <!--<jdbcConnection driverClass="oracle.jdbc.OracleDriver"
+                        connectionURL="jdbc:oracle:thin:@127.0.0.1:1521:orcl"
+                        userId="scott"
+                        password="123456">
+        </jdbcConnection>-->
+
+
+
+        <!--  -->
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!-- javaModelGenerator：指定javaBean的生成策略
+        targetPackage="test.model"：目标包名
+        targetProject="\MBGTestProject\src"：目标工程
+        -->
+        <javaModelGenerator targetPackage="com.xwkj.cost.model"
+                            targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!-- sqlMapGenerator：sql映射生成策略： -->
+        <sqlMapGenerator targetPackage="auto"
+                         targetProject="src/main/resources/mapper">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!--<sqlMapGenerator targetPackage="oracle_mapper_auto"
+                         targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>-->
+
+        <!-- javaClientGenerator:指定mapper接口所在的位置 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.xwkj.cost.mapper.auto"
+                             targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!--<javaClientGenerator type="XMLMAPPER" targetPackage="com.xwkj.ygjces.Mapper_oracle.auto"
+                             targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>-->
+
+        <!-- 指定要逆向分析哪些表：根据表要创建javaBean -->
+        <!--<table tableName="tbl_gb_cost_type_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="CostTypeInfo"></table>-->
+        <!--<table tableName="tbl_gb_user_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="UserInfo"></table>-->
+        <!--<table tableName="tbl_gb_role_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="RoleInfo"></table>-->
+        <!--<table tableName="tbl_gb_permission_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="PermissionInfo"></table>-->
+        <!--<table tableName="tbl_gb_contract_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="ContractInfo"></table>-->
+        <!--<table tableName="tbl_gb_enclosure_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="EnclosureInfo"></table>-->
+        <!--<table tableName="tbl_gb_invoice_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="InvoiceInfo"></table>-->
+        <!--<table tableName="tbl_gb_money_back_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="MoneyBackInfo"></table>-->
+        <!--<table tableName="tbl_gb_sub_contract_cost" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="SubContractCost"></table>-->
+        <!--<table tableName="tbl_gb_sub_contract_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="SubContractInfo"></table>-->
+        <!--<table tableName="tbl_gb_contract_cost_type_related" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="ContractCostTypeRelated"></table>-->
+        <!--<table tableName="tbl_gb_sub_enclosure_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="SubEnclosureInfo"></table>-->
+        <!--<table tableName="tbl_gb_return_ticket_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="ReturnTicketInfo"></table>-->
+<!--        <table tableName="tbl_gb_person_cost" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="PersonCost"></table>-->
+        <table tableName="" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName=""></table>
+    </context>
+</generatorConfiguration>

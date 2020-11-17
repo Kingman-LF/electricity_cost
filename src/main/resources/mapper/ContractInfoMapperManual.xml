@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xwkj.cost.mapper.ContractInfoMapperManual">
+    <resultMap id="BaseResultMap" type="com.xwkj.cost.model.ContractInfo">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="contract_name" jdbcType="VARCHAR" property="contractName" />
+        <result column="contract_num" jdbcType="VARCHAR" property="contractNum" />
+        <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+        <result column="item_manager" jdbcType="VARCHAR" property="itemManager" />
+        <result column="customer" jdbcType="VARCHAR" property="customer" />
+        <result column="company" jdbcType="VARCHAR" property="company" />
+        <result column="customer_tel" jdbcType="VARCHAR" property="customerTel" />
+        <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+        <result column="last_modified_time" jdbcType="TIMESTAMP" property="lastModifiedTime" />
+        <result column="creator" jdbcType="BIGINT" property="creator" />
+        <result column="last_modifier" jdbcType="BIGINT" property="lastModifier" />
+        <result column="contract_cost" jdbcType="DECIMAL" property="contractCost" />
+        <result column="contract_money" jdbcType="DECIMAL" property="contractMoney" />
+        <result column="special_instructions" jdbcType="VARCHAR" property="specialInstructions" />
+        <result column="premium" jdbcType="VARCHAR" property="premium" />
+        <result column="conclusion" jdbcType="VARCHAR" property="conclusion" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+    </resultMap>
+
+    <resultMap id="ResultMap" type="com.xwkj.cost.vo.ContractInfoAndInvoiceInfoVo">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="contract_name" jdbcType="VARCHAR" property="contractName" />
+        <result column="contract_num" jdbcType="VARCHAR" property="contractNum" />
+        <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+        <result column="item_manager" jdbcType="VARCHAR" property="itemManager" />
+        <result column="customer" jdbcType="VARCHAR" property="customer" />
+        <result column="company" jdbcType="VARCHAR" property="company" />
+        <result column="customer_tel" jdbcType="VARCHAR" property="customerTel" />
+        <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+        <result column="last_modified_time" jdbcType="TIMESTAMP" property="lastModifiedTime" />
+        <result column="creator" jdbcType="BIGINT" property="creator" />
+        <result column="last_modifier" jdbcType="BIGINT" property="lastModifier" />
+        <result column="contract_cost" jdbcType="DECIMAL" property="contractCost" />
+        <result column="contract_money" jdbcType="DECIMAL" property="contractMoney" />
+        <result column="special_instructions" jdbcType="VARCHAR" property="specialInstructions" />
+        <result column="premium" jdbcType="VARCHAR" property="premium" />
+        <result column="conclusion" jdbcType="VARCHAR" property="conclusion" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+    </resultMap>
+
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.xwkj.cost.model.ContractInfo">
+        insert into tbl_gb_contract_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="contractName != null">
+                contract_name,
+            </if>
+            <if test="contractNum != null">
+                contract_num,
+            </if>
+            <if test="itemName != null">
+                item_name,
+            </if>
+            <if test="itemManager != null">
+                item_manager,
+            </if>
+            <if test="customer != null">
+                customer,
+            </if>
+            <if test="company != null">
+                company,
+            </if>
+            <if test="customerTel != null">
+                customer_tel,
+            </if>
+            <if test="creatTime != null">
+                creat_time,
+            </if>
+            <if test="lastModifiedTime != null">
+                last_modified_time,
+            </if>
+            <if test="creator != null">
+                creator,
+            </if>
+            <if test="lastModifier != null">
+                last_modifier,
+            </if>
+            <if test="contractCost != null">
+                contract_cost,
+            </if>
+            <if test="contractMoney != null">
+                contract_money,
+            </if>
+            <if test="specialInstructions != null">
+                special_instructions,
+            </if>
+            <if test="premium != null">
+                premium,
+            </if>
+            <if test="conclusion != null">
+                conclusion,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="contractName != null">
+                #{contractName,jdbcType=VARCHAR},
+            </if>
+            <if test="contractNum != null">
+                #{contractNum,jdbcType=VARCHAR},
+            </if>
+            <if test="itemName != null">
+                #{itemName,jdbcType=VARCHAR},
+            </if>
+            <if test="itemManager != null">
+                #{itemManager,jdbcType=VARCHAR},
+            </if>
+            <if test="customer != null">
+                #{customer,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+                #{company,jdbcType=VARCHAR},
+            </if>
+            <if test="customerTel != null">
+                #{customerTel,jdbcType=VARCHAR},
+            </if>
+            <if test="creatTime != null">
+                #{creatTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastModifiedTime != null">
+                #{lastModifiedTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator != null">
+                #{creator,jdbcType=BIGINT},
+            </if>
+            <if test="lastModifier != null">
+                #{lastModifier,jdbcType=BIGINT},
+            </if>
+            <if test="contractCost != null">
+                #{contractCost,jdbcType=DECIMAL},
+            </if>
+            <if test="contractMoney != null">
+                #{contractMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="specialInstructions != null">
+                #{specialInstructions,jdbcType=VARCHAR},
+            </if>
+            <if test="premium != null">
+                #{premium,jdbcType=VARCHAR},
+            </if>
+            <if test="conclusion != null">
+                #{conclusion,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectSelective" resultMap="ResultMap">
+        select * from tbl_gb_contract_info t
+        <where>
+            <if test="contractInfo.contractNum != null and contractInfo.contractNum != ''">
+                AND t.contract_num = #{contractInfo.contractNum}
+            </if>
+            <if test="contractInfo.itemName != null and contractInfo.itemName != ''">
+                AND t.item_name LIKE CONCAT(CONCAT('%',#{contractInfo.itemName},'%'))
+            </if>
+            <if test="contractInfo.start != null">
+               AND DATE(t.creat_time) &gt;= #{contractInfo.start}
+            </if>
+            <if test="contractInfo.end != null">
+               AND DATE(t.creat_time) &lt;= #{contractInfo.end}
+            </if>
+            <if test="contractInfo.status != null">
+              AND t.status = #{contractInfo.status}
+            </if>
+            <if test="contractInfo.status == null">
+              AND t.status != 0 and t.status = 1
+            </if>
+            order by t.creat_time desc
+        </where>
+    </select>
+</mapper>

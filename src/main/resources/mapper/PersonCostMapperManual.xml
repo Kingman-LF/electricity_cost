@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xwkj.cost.mapper.PersonCostMapperManual">
+    <resultMap id="BaseResultMap" type="com.xwkj.cost.model.PersonCost">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="contract_id" jdbcType="BIGINT" property="contractId" />
+        <result column="cost_type_id" jdbcType="VARCHAR" property="costTypeId" />
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="cost" jdbcType="DECIMAL" property="cost" />
+        <result column="is_pay" jdbcType="INTEGER" property="isPay" />
+        <result column="note" jdbcType="VARCHAR" property="note" />
+        <result column="is_enable" jdbcType="INTEGER" property="isEnable" />
+    </resultMap>
+
+  <select id="getPersonCostList" resultMap="BaseResultMap">
+    SELECT * FROM tbl_gb_person_cost WHERE contract_id = #{contractId} AND is_enable = 1
+  </select>
+
+</mapper>

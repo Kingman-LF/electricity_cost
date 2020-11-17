@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xwkj.cost.mapper.MaintainInfoMapperManual" >
+  <resultMap id="BaseResultMap" type="com.xwkj.cost.model.MaintainInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="contract_id" jdbcType="BIGINT" property="contractId" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+
+  <select id="getMaintainInfoList" resultMap="BaseResultMap">
+    SELECT * FROM tbl_gb_maintain_info WHERE `status` != 0 AND contract_id = #{contractId}
+  </select>
+
+  <select id="getMaintainInfoListByCondition" resultMap="BaseResultMap">
+    SELECT * FROM tbl_gb_maintain_info WHERE `status` = #{status}
+  </select>
+
+</mapper>

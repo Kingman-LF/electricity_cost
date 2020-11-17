@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="stylesheet" href="./css/font.css" th:href="@{/css/font.css}">
+    <link rel="stylesheet" href="./css/xadmin.css" th:href="@{/css/xadmin.css}">
+    <script src="./lib/layui/layui.js" charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
+    <script type="text/javascript" src="./js/xadmin.js" th:src="@{/js/xadmin.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+</head>
+
+<body>
+<div class="x-nav">
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+    </a>
+</div>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <input type="hidden" id="contractId" name="contractId">
+                    <div class="layui-card-header">
+                        <button class="layui-btn layui-btn-danger" id="batchDeleteMaintain">
+                            <i class="layui-icon"></i>批量删除</button>
+                        <a class="layui-btn" id="addMaintain">
+                            <i class="layui-icon"></i>添加</a>
+                    </div>
+                    <table class="layui-table layui-form" id="maintainTable" lay-filter="maintainTable">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/html" id="barDemo">
+    {{# if(d.status == 1){}}
+    <a class="layui-btn layui-btn-normal" lay-event="deal" >处理</a>
+    {{#}else{}}
+    <a class="layui-btn layui-btn-disabled">处理</a>
+    {{#}}}
+    <a class="layui-btn" lay-event="edit" >编辑</a>
+    <a class="layui-btn layui-btn-danger" lay-event="delete" >删除</a>
+</script>
+    <script>
+        layui.use(['laydate','jquery','layer', 'form','table'],function() {
+            var laydate = layui.laydate
+                ,layer = layui.layer
+                ,table = layui.table
+                ,form = layui.form
+                ,$ = layui.jquery;
+            var maintainTable = table.render({
+                elem: '#maintainTable'
+                ,id:'maintainTable'
+                ,url: 'getMaintainInfoList' //数据接口
+                ,method : 'GET'
+                ,title: '合同列表'
+                ,page: true //开启分页
+                ,totalRow: true
+                ,where: {
+                    contractId : $('#contractId').val()
+                }
+                ,text:{
+                    none:"暂无数据！"
+                }
+                ,cols: [
+                    [
+                        {type:'checkbox'}
+                        ,{field: 'name', align: 'center',title: '维护名称'}
+                        ,{field: 'money',align: 'center', title: '维护金额'}
+                        ,{field: 'status', align: 'center',title: '是否处理', templet: function (d) {
+                            if (d.status == 1){
+                                return "<span class=\"layui-badge\">未处理</span>";;
+                            }else {
+                                return "<span class=\"layui-badge layui-bg-blue\">已处理</span>";
+                            }
+                        }
+                         }
+                        ,{field: 'startTime',align: 'center', title: '开始时间'}
+                        ,{field: 'endTime',align: 'center', title: '结束时间'}
+                        ,{field: 'createTime',align: 'center',title: '日期'}
+                        ,{field: 'note', align: 'center',title: '备注'}
+                        ,{fixed:'right',title:'操作',width:240,align: 'center',toolbar: '#barDemo'}
+                    ]
+                ]
+                ,response: {
+                    statusCode: 1 //重新规定成功的状态码为 200，table 组件默认为 0
+                }
+                ,parseData: function(res) { //将原始数据解析成 table 组件所规定的数据
+                    return {
+                        "code": res.code, //解析接口状态
+                        "msg": res.msg, //解析提示文本
+                        "count": res.data.total, //解析数据长度
+                        "data": res.data.list //解析数据列表
+                    }
+                }
+            });
+
+            $('#addMaintain').on('click',function () {
+                layer.open({
+                    type: 2,
+                    content: 'view?url=contract/maintain-add',
+                    area: ['40%', '80%'],
+                    title: '添加维护信息',
+                    shadeClose:true,
+                    btn: ['确定', '取消'],
+                    yes: function(index, layero) {
+                        var submitID = 'add',
+                            submit = layero.find('iframe').contents().find('#' + submitID);
+                        submit.trigger('click');
+                    },
+                    success:function(layero,index){
+                        var body = layer.getChildFrame('body', index);
+                        body.find("#contractId").val($('#contractId').val())
+                    }
+                });
+            })
+
+            $('#batchDeleteMaintain').on('click',function () {
+                layer.confirm('确认要删除吗?', function(index){
+                    var qArray = layui.table.checkStatus('maintainTable').data;
+                    var idArray = new Array();
+                    for(var i=0;i<qArray.length;i++){
+                        idArray.push(qArray[i].id);
+                    }
+                    var ids = idArray.join(",");
+                    if (ids == ""){
+                        layer.msg("请选择维护信息！",{icon:5,time:1000});
+                        return;
+                    }
+                    $.ajax({
+                        url : 'batchDeleteMaintainInfo/'+ids,
+                        type : 'DELETE',
+                        dataType: 'json',
+                        async : 'false',
+                        success : function(data) {
+                            if (data.success) {
+                                layer.msg(data.msg, {icon: 6,time: 1500},function () {
+                                    table.reload('maintainTable');
+                                });
+                            } else {
+                                layer.msg(res.msg,{icon:5,time:1000});
+                            }
+                        },
+                        error : function(response){
+                            layer.msg('系统错误！', {
+                                icon: 5
+                            });
+                        }
+                    });
+                });
+            });
+
+        //监听行工具事件
+        table.on('tool(maintainTable)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                ,layEvent = obj.event; //获得 lay-event 对应的值
+            if(layEvent === 'edit'){
+                layer.open({
+                    type: 2,
+                    content: 'view?url=contract/maintain-edit',
+                    area: ['40%', '80%'],
+                    title: '编辑维护信息',
+                    shadeClose:true,
+                    btn: ['确定', '取消'],
+                    yes: function(index, layero) {
+                        var submitID = 'edit',
+                            submit = layero.find('iframe').contents().find('#' + submitID);
+                        submit.trigger('click');
+                    },
+                    success:function(layero,index){
+                        var body = layer.getChildFrame('body', index);
+                        body.find("#id").val(data.id)
+                        body.find("#name").val(data.name)
+                        body.find("#money").val(data.money)
+                        body.find("#startTime").val(data.startTime)
+                        body.find("#endTime").val(data.endTime)
+                        body.find("#createTime").val(data.createTime)
+                        body.find("#note").val(data.note)
+                    }
+                });
+            } else if(layEvent === 'delete'){
+                layer.confirm('确认要删除吗?', function(index){
+                    $.ajax({
+                        url: "deleteMaintainInfo/"+data.id,
+                        dataType:"json",
+                        type: "DELETE",
+                        success: function(data){
+                            if(data.success) {
+                                layer.msg(data.msg, {icon: 6,time: 1500},function () {
+                                    table.reload('maintainTable');
+                                });
+                            }else {
+                                layer.msg(data.msg,{icon:5,time:1000});
+                            }
+                        },
+                        error : function(response){
+                            layer.msg('系统错误！', {
+                                icon: 5
+                            });
+                        }
+                    });
+                });
+            }else if(layEvent === 'deal'){
+                layer.confirm('确认要处理吗?', function(index){
+                    $.ajax({
+                        url: "updateMaintainInfo",
+                        dataType:"json",
+                        data:{
+                          id : data.id,
+                          status : 2
+                        },
+                        type: "PUT",
+                        success: function(data){
+                            if(data.success) {
+                                layer.msg(data.msg, {icon: 6,time: 1500},function () {
+                                    table.reload('maintainTable');
+                                });
+                            }else {
+                                layer.msg(data.msg,{icon:5,time:1000});
+                            }
+                        },
+                        error : function(response){
+                            layer.msg('系统错误！', {
+                                icon: 5
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    });
+</script>
+
+</html>

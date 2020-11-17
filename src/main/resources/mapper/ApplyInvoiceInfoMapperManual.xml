@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xwkj.cost.mapper.ApplyInvoiceInfoMapperManual">
+  <resultMap id="BaseResultMap" type="com.xwkj.cost.model.ApplyInvoiceInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="latetime" jdbcType="TIMESTAMP" property="latetime" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="contract_id" jdbcType="BIGINT" property="contractId" />
+    <result column="money_back_id" jdbcType="BIGINT" property="moneyBackId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, createtime, latetime, type, money, note, contract_id, money_back_id, status
+  </sql>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.xwkj.cost.model.ApplyInvoiceInfo">
+    insert into tbl_gb_apply_invoice (id, name, createtime,
+    latetime, type, money,
+    note, contract_id, money_back_id,
+    status)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP},
+    #{latetime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, #{money,jdbcType=DECIMAL},
+    #{note,jdbcType=VARCHAR}, #{contractId,jdbcType=BIGINT}, #{moneyBackId,jdbcType=BIGINT},
+    #{status,jdbcType=INTEGER})
+  </insert>
+  <select id="selectByContractId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from tbl_gb_apply_invoice
+    where status = 1 and contract_id = #{id}
+  </select>
+  <select id="getApplyInvoiceInfo" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM
+    tbl_gb_apply_invoice
+    WHERE
+    tbl_gb_apply_invoice.status = 1
+    <if test="contractId != null ">
+      AND tbl_gb_apply_invoice.contract_id = #{contractId}
+    </if>
+    <if test="type != null ">
+      AND tbl_gb_apply_invoice.type = #{type}
+    </if>
+    <if test="id != null ">
+      AND tbl_gb_apply_invoice.id = #{id}
+    </if>
+    <if test="moneyBackId != null ">
+      AND tbl_gb_apply_invoice.money_back_id = #{moneyBackId}
+    </if>
+  </select>
+</mapper>

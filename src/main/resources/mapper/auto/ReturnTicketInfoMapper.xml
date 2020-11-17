@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xwkj.cost.mapper.auto.ReturnTicketInfoMapper">
+  <resultMap id="BaseResultMap" type="com.xwkj.cost.model.ReturnTicketInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="ticket_holder" jdbcType="VARCHAR" property="ticketHolder" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="sub_contract_id" jdbcType="BIGINT" property="subContractId" />
+    <result column="is_enable" jdbcType="INTEGER" property="isEnable" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, money, create_time, ticket_holder, note, sub_contract_id, is_enable
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_gb_return_ticket_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tbl_gb_return_ticket_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xwkj.cost.model.ReturnTicketInfo">
+    insert into tbl_gb_return_ticket_info (id, money, create_time, 
+      ticket_holder, note, sub_contract_id, 
+      is_enable)
+    values (#{id,jdbcType=BIGINT}, #{money,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{ticketHolder,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{subContractId,jdbcType=BIGINT}, 
+      #{isEnable,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xwkj.cost.model.ReturnTicketInfo">
+    insert into tbl_gb_return_ticket_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="ticketHolder != null">
+        ticket_holder,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+      <if test="subContractId != null">
+        sub_contract_id,
+      </if>
+      <if test="isEnable != null">
+        is_enable,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ticketHolder != null">
+        #{ticketHolder,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="subContractId != null">
+        #{subContractId,jdbcType=BIGINT},
+      </if>
+      <if test="isEnable != null">
+        #{isEnable,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xwkj.cost.model.ReturnTicketInfo">
+    update tbl_gb_return_ticket_info
+    <set>
+      <if test="money != null">
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ticketHolder != null">
+        ticket_holder = #{ticketHolder,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="subContractId != null">
+        sub_contract_id = #{subContractId,jdbcType=BIGINT},
+      </if>
+      <if test="isEnable != null">
+        is_enable = #{isEnable,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xwkj.cost.model.ReturnTicketInfo">
+    update tbl_gb_return_ticket_info
+    set money = #{money,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      ticket_holder = #{ticketHolder,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR},
+      sub_contract_id = #{subContractId,jdbcType=BIGINT},
+      is_enable = #{isEnable,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

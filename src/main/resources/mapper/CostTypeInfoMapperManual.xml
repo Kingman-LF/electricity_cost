@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xwkj.cost.mapper.CostTypeInfoMapperManual" >
+  <resultMap id="BaseResultMap" type="com.xwkj.cost.model.CostTypeInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="p_id" property="pId" jdbcType="BIGINT" />
+    <result column="is_enable" property="isEnable" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, p_id, is_enable, sort
+  </sql>
+  <select id="getCostTypeInfoList" resultMap="BaseResultMap">
+    SELECT * FROM tbl_gb_cost_type_info WHERE is_enable = 1
+  </select>
+
+  <select id="getCostTypeInfoListByIds" resultMap="BaseResultMap">
+      SELECT * FROM `tbl_gb_cost_type_info` WHERE 1=1 AND FIND_IN_SET(id,#{ids}) AND is_enable = 1
+  </select>
+</mapper>

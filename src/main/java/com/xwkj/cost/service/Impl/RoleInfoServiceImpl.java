@@ -54,7 +54,7 @@ public class RoleInfoServiceImpl implements RoleInfoService {
         if (roleInfoByRoleName != null){
             return false;
         }
-        roleInfo.setCreateTime(new Date()).setCreator(LoginUserInfoManager.getUserInfo().getId());
+        roleInfo.setCreateTime(new Date()).setCreator(LoginUserInfoManager.getUserInfo().getId()).setCreateUser(LoginUserInfoManager.getUserInfo().getUserName()).setIsEnable(1);
         roleInfoMapper.insertSelective(roleInfo);
         //插入角色与权限关系信息
         String[] split = permIds.split(",");

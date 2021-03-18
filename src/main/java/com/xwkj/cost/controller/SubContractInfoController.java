@@ -21,7 +21,7 @@ public class SubContractInfoController {
      * @Description : 根据合同主键获取成本合同列表信息
      * @methodName : getSubContractInfoList
      * @param pageUtil : 
-     * @param contractId : 
+     * @param subContractInfo :
      * @return : com.xwkj.cost.common.ResponseResult
      * @exception : 
      * @author : zyh

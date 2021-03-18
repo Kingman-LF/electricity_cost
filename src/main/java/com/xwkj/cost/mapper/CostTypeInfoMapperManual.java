@@ -16,7 +16,7 @@ public interface CostTypeInfoMapperManual {
      * @exception :
      * @author : zyh
      */
-    List<CostTypeInfo> getCostTypeInfoList();
+    List<CostTypeInfo> getCostTypeInfoList(String typeName);
 
     /**
      * @Description : 根据主键组成的字符串获取成本类型列表
@@ -26,6 +26,6 @@ public interface CostTypeInfoMapperManual {
      * @exception :
      * @author : zyh
      */
-    List<CostTypeInfo> getCostTypeInfoListByIds(@Param("ids") String ids);
+    List<CostTypeInfo> getCostTypeInfoListByIds(@Param("ids") String ids, @Param("name") String name);
 
 }

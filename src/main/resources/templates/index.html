@@ -128,11 +128,31 @@
                         <i class="iconfont nav_right">&#xe697;</i></a>
                     <ul class="sub-menu">
                         <shiro:hasPermission name="system:type:view">
-                        <li>
-                            <a onclick="xadmin.add_tab('分类管理','view?url=cost-type/cost-type-list')">
-                                <i class="iconfont">&#xe6a7;</i>
-                                <cite>分类管理</cite></a>
-                        </li>
+                            <li>
+                                <a onclick="xadmin.add_tab('分类管理','view?url=cost-type/cost-type-list')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>分类管理</cite></a>
+                            </li>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="system:name:view">
+                            <li>
+                                <a onclick="xadmin.add_tab('名称管理','view?url=dic/name-list')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>名称管理</cite></a>
+                            </li>
+                        <shiro:hasPermission name="system:unit:view">
+                            <li>
+                                <a onclick="xadmin.add_tab('单位管理','view?url=dic/unit-list')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>单位管理</cite></a>
+                            </li>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="system:record:view">
+                            <li>
+                                <a onclick="xadmin.add_tab('记录管理','view?url=record/record-list')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>记录管理</cite></a>
+                            </li>
                         </shiro:hasPermission>
                     </ul>
                 </li>

@@ -2,6 +2,7 @@ package com.xwkj.cost.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.xwkj.cost.common.LoginUserInfoManager;
 import com.xwkj.cost.mapper.ReturnTicketInfoMapperManual;
 import com.xwkj.cost.mapper.SubContractCostMapperManual;
 import com.xwkj.cost.mapper.SubContractInfoMapperManual;
@@ -166,7 +167,7 @@ public class SubContractInfoServiceImpl implements SubContractInfoService {
 
         Date date = new Date();
         //插入成本合同信息
-        subContractInfo.setCreateTime(date).setSubContractCost(new BigDecimal(0));
+        subContractInfo.setCreateTime(date).setSubContractCost(new BigDecimal(0)).setCreateUser(LoginUserInfoManager.getUserInfo().getUserName());
         subContractInfoMapper.insertSelective(subContractInfo);
         //插入成本合同附带的附件信息
         String fileUploads = subContractInfo.getFileUploads();

@@ -63,7 +63,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         if (userInfoByUserName != null){
             return false;
         }
-        userInfo.setPassword(MD5Util.getMD5(userInfo.getPassword())).setCreateTime(new Date());
+        userInfo.setPassword(MD5Util.getMD5(userInfo.getPassword())).setCreateTime(new Date()).setIsEnable(1).setCreateUser(LoginUserInfoManager.getUserInfo().getUserName());
         userInfoMapper.insertSelective(userInfo);
         //为了解决用户无角色的情况，从第二个开始遍历
         for (int i = 1; i < roleIds.length; i++) {

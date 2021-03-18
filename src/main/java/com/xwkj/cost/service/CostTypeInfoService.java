@@ -13,7 +13,7 @@ public interface CostTypeInfoService {
      * @exception :
      * @author : zyh
      */
-    List<CostTypeInfo> getCostTypeInfoList();
+    List<CostTypeInfo> getCostTypeInfoList(String typeName);
 
     /**
      * @Description : 增加成本分类信息
@@ -53,6 +53,16 @@ public interface CostTypeInfoService {
      * @exception : 
      * @author : zyh
      */
-    List<CostTypeInfo> getCostTypeInfoListByContractId(Long contractId);
+    List<CostTypeInfo> getCostTypeInfoListByContractId(Long contractId, String name);
+
+    /**
+     * @Description : 根据类型主键获取树主键组成的字符串
+     * @methodName : getCostTypeInfosStr
+     * @param id :
+     * @return : java.lang.String
+     * @exception :
+     * @author : 张永辉
+     */
+    String getCostTypeInfosStr(Long id);
 
 }

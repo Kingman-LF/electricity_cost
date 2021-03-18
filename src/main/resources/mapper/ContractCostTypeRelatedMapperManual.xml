@@ -12,10 +12,11 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="is_enable" jdbcType="INTEGER" property="isEnable" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
   </resultMap>
   <sql id="Base_Column_List">
     id, contract_id, cost_type_id, cost, payee, payee_tel, is_pay, create_time, note,
-    is_enable
+    is_enable, create_user
   </sql>
 
   <select id="getContractCostTypeRelatedListByContractId" resultMap="BaseResultMap">

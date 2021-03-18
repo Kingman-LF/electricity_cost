@@ -15,10 +15,11 @@
     <result column="company" jdbcType="VARCHAR" property="company" />
     <result column="contract_id" jdbcType="BIGINT" property="contractId" />
     <result column="cost_type_id" jdbcType="VARCHAR" property="costTypeId" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
   </resultMap>
   <sql id="Base_Column_List">
     id, sub_contract_name, sub_contract_num, sub_contract_cost, pay_item, cost_money,
-    status, payee, payee_tel, create_time, company, contract_id, cost_type_id
+    status, payee, payee_tel, create_time, company, contract_id, cost_type_id, create_user
   </sql>
 
   <select id="getSubContractInfoListByContractId" resultMap="BaseResultMap">
@@ -27,6 +28,9 @@
     WHERE contract_id = #{contractId} AND status != 0
     <if test="costTypeId != null and costTypeId != ''">
       AND cost_type_id = #{costTypeId}
+    </if>
+    <if test="company != null and company != ''">
+      AND company = #{company}
     </if>
     order by create_time desc,id desc
   </select>

@@ -1,106 +1,117 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xwkj.cost.mapper.auto.RoleInfoMapper" >
-  <resultMap id="BaseResultMap" type="com.xwkj.cost.model.RoleInfo" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
-    <result column="role_desc" property="roleDesc" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="creator" property="creator" jdbcType="BIGINT" />
-    <result column="is_enable" property="isEnable" jdbcType="INTEGER" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xwkj.cost.mapper.auto.RoleInfoMapper">
+  <resultMap id="BaseResultMap" type="com.xwkj.cost.model.RoleInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="role_desc" jdbcType="VARCHAR" property="roleDesc" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="is_enable" jdbcType="INTEGER" property="isEnable" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, role_name, role_desc, create_time, creator, is_enable
+  <sql id="Base_Column_List">
+    id, role_name, role_desc, create_time, creator, is_enable, create_user
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from tbl_gb_role_info
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from tbl_gb_role_info
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.xwkj.cost.model.RoleInfo" >
+  <insert id="insert" parameterType="com.xwkj.cost.model.RoleInfo">
     insert into tbl_gb_role_info (id, role_name, role_desc, 
-      create_time, creator, is_enable
-      )
+      create_time, creator, is_enable, 
+      create_user)
     values (#{id,jdbcType=BIGINT}, #{roleName,jdbcType=VARCHAR}, #{roleDesc,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=BIGINT}, #{isEnable,jdbcType=INTEGER}
-      )
+      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=BIGINT}, #{isEnable,jdbcType=INTEGER}, 
+      #{createUser,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.xwkj.cost.model.RoleInfo" useGeneratedKeys="true" keyProperty="id" >
+  <insert id="insertSelective" parameterType="com.xwkj.cost.model.RoleInfo">
     insert into tbl_gb_role_info
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="roleName != null" >
+      <if test="roleName != null">
         role_name,
       </if>
-      <if test="roleDesc != null" >
+      <if test="roleDesc != null">
         role_desc,
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time,
       </if>
-      <if test="creator != null" >
+      <if test="creator != null">
         creator,
       </if>
-      <if test="isEnable != null" >
+      <if test="isEnable != null">
         is_enable,
       </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="roleName != null" >
+      <if test="roleName != null">
         #{roleName,jdbcType=VARCHAR},
       </if>
-      <if test="roleDesc != null" >
+      <if test="roleDesc != null">
         #{roleDesc,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="creator != null" >
+      <if test="creator != null">
         #{creator,jdbcType=BIGINT},
       </if>
-      <if test="isEnable != null" >
+      <if test="isEnable != null">
         #{isEnable,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xwkj.cost.model.RoleInfo" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.xwkj.cost.model.RoleInfo">
     update tbl_gb_role_info
-    <set >
-      <if test="roleName != null" >
+    <set>
+      <if test="roleName != null">
         role_name = #{roleName,jdbcType=VARCHAR},
       </if>
-      <if test="roleDesc != null" >
+      <if test="roleDesc != null">
         role_desc = #{roleDesc,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="creator != null" >
+      <if test="creator != null">
         creator = #{creator,jdbcType=BIGINT},
       </if>
-      <if test="isEnable != null" >
+      <if test="isEnable != null">
         is_enable = #{isEnable,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xwkj.cost.model.RoleInfo" >
+  <update id="updateByPrimaryKey" parameterType="com.xwkj.cost.model.RoleInfo">
     update tbl_gb_role_info
     set role_name = #{roleName,jdbcType=VARCHAR},
       role_desc = #{roleDesc,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       creator = #{creator,jdbcType=BIGINT},
-      is_enable = #{isEnable,jdbcType=INTEGER}
+      is_enable = #{isEnable,jdbcType=INTEGER},
+      create_user = #{createUser,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

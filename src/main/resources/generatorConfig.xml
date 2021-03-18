@@ -79,20 +79,25 @@
         </javaClientGenerator>-->
 
         <!-- 指定要逆向分析哪些表：根据表要创建javaBean -->
-        <!--<table tableName="tbl_gb_cost_type_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="CostTypeInfo"></table>-->
+<!--        <table tableName="tbl_gb_cost_type_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="CostTypeInfo"></table>-->
         <!--<table tableName="tbl_gb_user_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="UserInfo"></table>-->
         <!--<table tableName="tbl_gb_role_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="RoleInfo"></table>-->
         <!--<table tableName="tbl_gb_permission_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="PermissionInfo"></table>-->
         <!--<table tableName="tbl_gb_contract_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="ContractInfo"></table>-->
         <!--<table tableName="tbl_gb_enclosure_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="EnclosureInfo"></table>-->
         <!--<table tableName="tbl_gb_invoice_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="InvoiceInfo"></table>-->
-        <!--<table tableName="tbl_gb_money_back_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="MoneyBackInfo"></table>-->
-        <!--<table tableName="tbl_gb_sub_contract_cost" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="SubContractCost"></table>-->
-        <!--<table tableName="tbl_gb_sub_contract_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="SubContractInfo"></table>-->
-        <!--<table tableName="tbl_gb_contract_cost_type_related" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="ContractCostTypeRelated"></table>-->
+<!--        <table tableName="tbl_gb_money_back_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="MoneyBackInfo"></table>-->
+<!--        <table tableName="tbl_gb_sub_contract_cost" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="SubContractCost"></table>-->
+<!--        <table tableName="tbl_gb_sub_contract_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="SubContractInfo"></table>-->
+<!--        <table tableName="tbl_gb_contract_cost_type_related" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="ContractCostTypeRelated"></table>-->
         <!--<table tableName="tbl_gb_sub_enclosure_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="SubEnclosureInfo"></table>-->
-        <!--<table tableName="tbl_gb_return_ticket_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="ReturnTicketInfo"></table>-->
+<!--        <table tableName="tbl_gb_return_ticket_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="ReturnTicketInfo"></table>-->
 <!--        <table tableName="tbl_gb_person_cost" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="PersonCost"></table>-->
+<!--        <table tableName="tbl_gb_apply_invoice" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="ApplyInvoiceInfo"></table>-->
+<!--        <table tableName="tbl_gb_user_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="UserInfo"></table>-->
+<!--        <table tableName="tbl_gb_role_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="RoleInfo"></table>-->
+<!--        <table tableName="tbl_gb_record_info" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="RecordInfo"></table>-->
+<!--        <table tableName="tbl_gb_dictionary" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName="DictionaryInfo"></table>-->
         <table tableName="" enableSelectByExample="false"  enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false" domainObjectName=""></table>
     </context>
 </generatorConfiguration>

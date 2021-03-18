@@ -1,7 +1,9 @@
 package com.xwkj.cost.mapper.auto;
 
 import com.xwkj.cost.model.MoneyBackInfo;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface MoneyBackInfoMapper {
     int deleteByPrimaryKey(Long id);
 

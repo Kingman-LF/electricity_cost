@@ -12,14 +12,16 @@
     <result column="creator" jdbcType="BIGINT" property="creator" />
     <result column="invaice_remark" jdbcType="VARCHAR" property="invaiceRemark" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="certificate_number" jdbcType="VARCHAR" property="certificateNumber" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
   </resultMap>
   <resultMap id="BaseResultMap2" type="com.xwkj.cost.vo.MoneyBackVo">
     <result  column="moneySum" jdbcType="DECIMAL" property="moneySum"/>
     <result  column="countNum" jdbcType="INTEGER" property="countNum"/>
   </resultMap>
   <sql id="Base_Column_List">
-    id, money, contract_id, create_time, has_invoice, invoice_type, arrival_money,
-    creator, invaice_remark, status
+    id, money, contract_id, create_time, has_invoice, invoice_type, arrival_money, creator,
+    invaice_remark, status, certificate_number, create_user
   </sql>
   <select id="getMoneyBackInfoList" resultMap="BaseResultMap">
     SELECT

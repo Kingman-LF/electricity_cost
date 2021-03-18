@@ -7,17 +7,14 @@ import com.xwkj.cost.mapper.SubContractInfoMapperManual;
 import com.xwkj.cost.mapper.auto.CostTypeInfoMapper;
 import com.xwkj.cost.model.ContractCostTypeRelated;
 import com.xwkj.cost.model.CostTypeInfo;
-import com.xwkj.cost.model.PersonCost;
 import com.xwkj.cost.model.SubContractInfo;
 import com.xwkj.cost.service.CostTypeInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CostTypeInfoServiceImpl implements CostTypeInfoService{
@@ -41,8 +38,8 @@ public class CostTypeInfoServiceImpl implements CostTypeInfoService{
      * @author : zyh
      */
     @Override
-    public List<CostTypeInfo> getCostTypeInfoList() {
-        return costTypeInfoMapperManual.getCostTypeInfoList();
+    public List<CostTypeInfo> getCostTypeInfoList(String typeName) {
+        return costTypeInfoMapperManual.getCostTypeInfoList(typeName);
     }
 
     /**
@@ -99,7 +96,7 @@ public class CostTypeInfoServiceImpl implements CostTypeInfoService{
      * @author : zyh
      */
     @Override
-    public List<CostTypeInfo> getCostTypeInfoListByContractId(Long contractId) {
+    public List<CostTypeInfo> getCostTypeInfoListByContractId(Long contractId, String name) {
         //根据合同主键获取所有其他成本信息
         List<ContractCostTypeRelated> otherCostList = contractCostTypeRelatedMapperManual.getContractCostTypeRelatedListByContractId(new ContractCostTypeRelated().setContractId(contractId));
         //根据合同主键获取成本合同信息
@@ -146,7 +143,27 @@ public class CostTypeInfoServiceImpl implements CostTypeInfoService{
         }
         List<Long> costTypeIdList = new ArrayList<>(costTypeIds);
         String ids = StringUtils.join(costTypeIdList, ",");
-        List<CostTypeInfo> list = costTypeInfoMapperManual.getCostTypeInfoListByIds(ids);
+        List<CostTypeInfo> list = costTypeInfoMapperManual.getCostTypeInfoListByIds(ids, name);
         return list;
+    }
+
+    /**
+     * @Description : 根据类型主键获取树主键组成的字符串
+     * @methodName : getCostTypeInfosStr
+     * @param id :
+     * @return : java.lang.String
+     * @exception :
+     * @author : 张永辉
+     */
+    @Override
+    public String getCostTypeInfosStr(Long id) {
+        List<Long> list = new ArrayList<>();
+        CostTypeInfo costTypeInfo = costTypeInfoMapper.selectByPrimaryKey(id);
+        while (costTypeInfo.getpId() != 0){
+            list.add(costTypeInfo.getId());
+            costTypeInfo = costTypeInfoMapper.selectByPrimaryKey(costTypeInfo.getpId());
+        }
+        list.add(costTypeInfo.getId());
+        return list.stream().sorted(Long::compareTo).map(String::valueOf).collect(Collectors.joining(","));
     }
 }

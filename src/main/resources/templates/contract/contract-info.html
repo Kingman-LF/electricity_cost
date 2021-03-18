@@ -295,6 +295,7 @@
                 ,cols: [
                     [
                         {field: 'name',align: 'center', title: '申请名称'}
+                        ,{field: 'createUser',align: 'center', title: '创建人'}
                         ,{field: 'createtime',align: 'center', title: '申请日期', templet: function (d) {
                                 return layui.util.toDateString(d.createtime, "yyyy-MM-dd")
                             }}

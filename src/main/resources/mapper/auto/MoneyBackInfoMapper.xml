@@ -12,10 +12,12 @@
     <result column="creator" jdbcType="BIGINT" property="creator" />
     <result column="invaice_remark" jdbcType="VARCHAR" property="invaiceRemark" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="certificate_number" jdbcType="VARCHAR" property="certificateNumber" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, money, contract_id, create_time, has_invoice, invoice_type, arrival_money,
-    creator, invaice_remark, status
+    id, money, contract_id, create_time, has_invoice, invoice_type, arrival_money, creator, 
+    invaice_remark, status, certificate_number, create_user
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -29,15 +31,17 @@
   </delete>
   <insert id="insert" parameterType="com.xwkj.cost.model.MoneyBackInfo">
     insert into tbl_gb_money_back_info (id, money, contract_id, 
-      create_time, has_invoice, invoice_type,
+      create_time, has_invoice, invoice_type, 
       arrival_money, creator, invaice_remark, 
-      status)
+      status, certificate_number, create_user
+      )
     values (#{id,jdbcType=BIGINT}, #{money,jdbcType=DECIMAL}, #{contractId,jdbcType=BIGINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{hasInvoice,jdbcType=INTEGER}, #{invoiceType,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP}, #{hasInvoice,jdbcType=INTEGER}, #{invoiceType,jdbcType=INTEGER}, 
       #{arrivalMoney,jdbcType=TIMESTAMP}, #{creator,jdbcType=BIGINT}, #{invaiceRemark,jdbcType=VARCHAR}, 
-      #{status,jdbcType=INTEGER})
+      #{status,jdbcType=INTEGER}, #{certificateNumber,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.xwkj.cost.model.MoneyBackInfo" useGeneratedKeys="true" keyProperty="id" >
+  <insert id="insertSelective" parameterType="com.xwkj.cost.model.MoneyBackInfo">
     insert into tbl_gb_money_back_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -69,6 +73,12 @@
       </if>
       <if test="status != null">
         status,
+      </if>
+      <if test="certificateNumber != null">
+        certificate_number,
+      </if>
+      <if test="createUser != null">
+        create_user,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -102,6 +112,12 @@
       <if test="status != null">
         #{status,jdbcType=INTEGER},
       </if>
+      <if test="certificateNumber != null">
+        #{certificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.xwkj.cost.model.MoneyBackInfo">
@@ -134,6 +150,12 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="certificateNumber != null">
+        certificate_number = #{certificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -147,7 +169,9 @@
       arrival_money = #{arrivalMoney,jdbcType=TIMESTAMP},
       creator = #{creator,jdbcType=BIGINT},
       invaice_remark = #{invaiceRemark,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      certificate_number = #{certificateNumber,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

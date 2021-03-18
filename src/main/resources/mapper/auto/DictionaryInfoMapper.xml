@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xwkj.cost.mapper.auto.DictionaryInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.xwkj.cost.model.DictionaryInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="dic_parentid" property="dicParentid" jdbcType="BIGINT" />
+    <result column="dic_name" property="dicName" jdbcType="VARCHAR" />
+    <result column="dic_remark" property="dicRemark" jdbcType="VARCHAR" />
+    <result column="dic_status" property="dicStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, dic_parentid, dic_name, dic_remark, dic_status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_gb_dictionary
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tbl_gb_dictionary
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xwkj.cost.model.DictionaryInfo" >
+    insert into tbl_gb_dictionary (id, dic_parentid, dic_name, 
+      dic_remark, dic_status)
+    values (#{id,jdbcType=BIGINT}, #{dicParentid,jdbcType=BIGINT}, #{dicName,jdbcType=VARCHAR}, 
+      #{dicRemark,jdbcType=VARCHAR}, #{dicStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xwkj.cost.model.DictionaryInfo" >
+    insert into tbl_gb_dictionary
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dicParentid != null" >
+        dic_parentid,
+      </if>
+      <if test="dicName != null" >
+        dic_name,
+      </if>
+      <if test="dicRemark != null" >
+        dic_remark,
+      </if>
+      <if test="dicStatus != null" >
+        dic_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="dicParentid != null" >
+        #{dicParentid,jdbcType=BIGINT},
+      </if>
+      <if test="dicName != null" >
+        #{dicName,jdbcType=VARCHAR},
+      </if>
+      <if test="dicRemark != null" >
+        #{dicRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="dicStatus != null" >
+        #{dicStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xwkj.cost.model.DictionaryInfo" >
+    update tbl_gb_dictionary
+    <set >
+      <if test="dicParentid != null" >
+        dic_parentid = #{dicParentid,jdbcType=BIGINT},
+      </if>
+      <if test="dicName != null" >
+        dic_name = #{dicName,jdbcType=VARCHAR},
+      </if>
+      <if test="dicRemark != null" >
+        dic_remark = #{dicRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="dicStatus != null" >
+        dic_status = #{dicStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xwkj.cost.model.DictionaryInfo" >
+    update tbl_gb_dictionary
+    set dic_parentid = #{dicParentid,jdbcType=BIGINT},
+      dic_name = #{dicName,jdbcType=VARCHAR},
+      dic_remark = #{dicRemark,jdbcType=VARCHAR},
+      dic_status = #{dicStatus,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -8,9 +8,10 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="is_enable" jdbcType="INTEGER" property="isEnable" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_name, password, create_time, is_enable, name
+    id, user_name, password, create_time, is_enable, name, create_user
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -24,13 +25,13 @@
   </delete>
   <insert id="insert" parameterType="com.xwkj.cost.model.UserInfo">
     insert into tbl_gb_user_info (id, user_name, password, 
-      create_time, is_enable, name
-      )
+      create_time, is_enable, name, 
+      create_user)
     values (#{id,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{isEnable,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}
-      )
+      #{createTime,jdbcType=TIMESTAMP}, #{isEnable,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.xwkj.cost.model.UserInfo" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.xwkj.cost.model.UserInfo">
     insert into tbl_gb_user_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -50,6 +51,9 @@
       </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="createUser != null">
+        create_user,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -71,6 +75,9 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.xwkj.cost.model.UserInfo">
@@ -91,6 +98,9 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -100,7 +110,8 @@
       password = #{password,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       is_enable = #{isEnable,jdbcType=INTEGER},
-      name = #{name,jdbcType=VARCHAR}
+      name = #{name,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

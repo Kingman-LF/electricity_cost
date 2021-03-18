@@ -43,6 +43,30 @@ public class UserInfo {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
     private Date endTime;
+
+    /**
+     * 对应字段：create_user，  字段含义：创建人
+     */
+    private String createUser;
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public UserInfo setStartTime(Date startTime) {
+        this.startTime = startTime;
+        return this;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public UserInfo setEndTime(Date endTime) {
+        this.endTime = endTime;
+        return this;
+    }
+
     public Long getId() {
         return id;
     }
@@ -97,23 +121,15 @@ public class UserInfo {
         return this;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public String getCreateUser() {
+        return createUser;
     }
 
-    public UserInfo setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public UserInfo setCreateUser(String createUser) {
+        this.createUser = createUser == null ? null : createUser.trim();
         return this;
     }
 
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public UserInfo setEndTime(Date endTime) {
-        this.endTime = endTime;
-        return this;
-    }
     public byte[] getCredentialsSalt(){
         return String.valueOf(this.userName + this.password).getBytes();
     }

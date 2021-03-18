@@ -9,9 +9,10 @@
     <result column="payee" jdbcType="VARCHAR" property="payee" />
     <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="is_enbale" jdbcType="INTEGER" property="isEnbale" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, cost, create_time, sub_contract_id, payee, note, is_enbale
+    id, cost, create_time, sub_contract_id, payee, note, is_enbale, create_user
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -26,10 +27,10 @@
   <insert id="insert" parameterType="com.xwkj.cost.model.SubContractCost">
     insert into tbl_gb_sub_contract_cost (id, cost, create_time, 
       sub_contract_id, payee, note, 
-      is_enbale)
+      is_enbale, create_user)
     values (#{id,jdbcType=BIGINT}, #{cost,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
       #{subContractId,jdbcType=BIGINT}, #{payee,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
-      #{isEnbale,jdbcType=INTEGER})
+      #{isEnbale,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xwkj.cost.model.SubContractCost">
     insert into tbl_gb_sub_contract_cost
@@ -55,6 +56,9 @@
       <if test="isEnbale != null">
         is_enbale,
       </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -77,6 +81,9 @@
       </if>
       <if test="isEnbale != null">
         #{isEnbale,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -101,6 +108,9 @@
       <if test="isEnbale != null">
         is_enbale = #{isEnbale,jdbcType=INTEGER},
       </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -111,7 +121,8 @@
       sub_contract_id = #{subContractId,jdbcType=BIGINT},
       payee = #{payee,jdbcType=VARCHAR},
       note = #{note,jdbcType=VARCHAR},
-      is_enbale = #{isEnbale,jdbcType=INTEGER}
+      is_enbale = #{isEnbale,jdbcType=INTEGER},
+      create_user = #{createUser,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

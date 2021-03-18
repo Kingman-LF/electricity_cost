@@ -41,6 +41,11 @@ public class RoleInfo {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endTime;
 
+    /**
+     * 对应字段：create_user，  字段含义：创建人
+     */
+    private String createUser;
+
     public Date getStartTime() {
         return startTime;
     }
@@ -110,6 +115,15 @@ public class RoleInfo {
 
     public RoleInfo setIsEnable(Integer isEnable) {
         this.isEnable = isEnable;
+        return this;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public RoleInfo setCreateUser(String createUser) {
+        this.createUser = createUser == null ? null : createUser.trim();
         return this;
     }
 }

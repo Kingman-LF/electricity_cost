@@ -9,9 +9,10 @@
     <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="sub_contract_id" jdbcType="BIGINT" property="subContractId" />
     <result column="is_enable" jdbcType="INTEGER" property="isEnable" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, money, create_time, ticket_holder, note, sub_contract_id, is_enable
+    id, money, create_time, ticket_holder, note, sub_contract_id, is_enable, create_user
   </sql>
 
   <select id="getReturnTicketInfoListBySubContractId" resultMap="BaseResultMap">

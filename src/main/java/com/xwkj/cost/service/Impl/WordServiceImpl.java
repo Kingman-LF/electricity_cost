@@ -263,7 +263,7 @@ public class WordServiceImpl implements WordService{
 			//支出总未付款金额
 			BigDecimal sumSubMoney = new BigDecimal(0);
 
-			List<CostTypeInfo> list = costTypeInfoService.getCostTypeInfoListByContractId(contractId);
+			List<CostTypeInfo> list = costTypeInfoService.getCostTypeInfoListByContractId(contractId, "");
 			//支出项序号
 			int i = 1;
 			if (list != null) {

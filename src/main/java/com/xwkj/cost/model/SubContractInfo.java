@@ -89,21 +89,17 @@ public class SubContractInfo {
      */
     private BigDecimal returnTicketMoney;
 
-    public BigDecimal getReturnTicketMoney() {
-        return returnTicketMoney;
+    /**
+     * 对应字段：create_user，  字段含义：创建人
+     */
+    private String createUser;
+
+    public String getCostTypeName() {
+        return costTypeName;
     }
 
-    public SubContractInfo setReturnTicketMoney(BigDecimal returnTicketMoney) {
-        this.returnTicketMoney = returnTicketMoney;
-        return this;
-    }
-
-    public String getFileUploads() {
-        return fileUploads;
-    }
-
-    public SubContractInfo setFileUploads(String fileUploads) {
-        this.fileUploads = fileUploads;
+    public SubContractInfo setCostTypeName(String costTypeName) {
+        this.costTypeName = costTypeName;
         return this;
     }
 
@@ -116,12 +112,21 @@ public class SubContractInfo {
         return this;
     }
 
-    public String getCostTypeName() {
-        return costTypeName;
+    public String getFileUploads() {
+        return fileUploads;
     }
 
-    public SubContractInfo setCostTypeName(String costTypeName) {
-        this.costTypeName = costTypeName;
+    public SubContractInfo setFileUploads(String fileUploads) {
+        this.fileUploads = fileUploads;
+        return this;
+    }
+
+    public BigDecimal getReturnTicketMoney() {
+        return returnTicketMoney;
+    }
+
+    public SubContractInfo setReturnTicketMoney(BigDecimal returnTicketMoney) {
+        this.returnTicketMoney = returnTicketMoney;
         return this;
     }
 
@@ -239,6 +244,15 @@ public class SubContractInfo {
 
     public SubContractInfo setCostTypeId(String costTypeId) {
         this.costTypeId = costTypeId == null ? null : costTypeId.trim();
+        return this;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public SubContractInfo setCreateUser(String createUser) {
+        this.createUser = createUser == null ? null : createUser.trim();
         return this;
     }
 }

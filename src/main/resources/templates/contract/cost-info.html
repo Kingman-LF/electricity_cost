@@ -324,6 +324,7 @@
                         {field: 'createTime',align: 'center', title: '付款日期', templet: function (d) {
                                 return layui.util.toDateString(d.createTime, "yyyy-MM-dd")
                             }}
+                        ,{field: 'createUser',align: 'center', title: '创建人'}
                         ,{field: 'cost',align: 'center', title: '付款金额'}
                         ,{field: 'payee',align: 'center', title: '收款方'}
                         ,{field: 'note',align: 'center', title: '备注'}
@@ -479,6 +480,7 @@
                         {field: 'createTime',align: 'center', title: '回票日期', templet: function (d) {
                                 return layui.util.toDateString(d.createTime, "yyyy-MM-dd")
                             }}
+                        ,{field: 'createUser',align: 'center', title: '创建人'}
                         ,{field: 'money',align: 'center', title: '回票金额'}
                         ,{field: 'ticketHolder',align: 'center', title: '回票人'}
                         ,{field: 'note',align: 'center', title: '备注'}

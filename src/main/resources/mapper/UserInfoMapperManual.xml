@@ -8,12 +8,14 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="is_enable" jdbcType="INTEGER" property="isEnable" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
     <result column="startTime" jdbcType="TIMESTAMP" property="startTime" />
     <result column="endTime" jdbcType="TIMESTAMP" property="endTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_name, password, create_time, is_enable, name
+    id, user_name, password, create_time, is_enable, name, create_user
   </sql>
+
 
   <select id="getUserInfoByUserNameAndPassWord" resultMap="BaseResultMap">
     SELECT * FROM tbl_gb_user_info WHERE user_name = #{userName} AND password = #{password} WHERE is_enable = 1

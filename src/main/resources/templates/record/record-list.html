@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+</head>
+<style>
+    td[data-field="opreate"] .layui-table-cell{
+        height:30px;
+        overflow:inherit;
+    }
+</style>
+<body>
+<div class="x-nav">
+    <span class="layui-breadcrumb">
+        <a href="">系统管理</a>
+        <a><cite>记录列表</cite></a>
+    </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+    </a>
+</div>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <form class="layui-form layui-col-space5">
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <select name="name" id="name">
+                                <option value="">请选择名称</option>
+                            </select>
+                        </div>
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <select name="unit" id="unit">
+                                <option value="">请选择单位</option>
+                            </select>
+                        </div>
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <button class="layui-btn" lay-submit="" id="searchStoreHouse" lay-filter="searchStoreHouse"><i class="layui-icon">&#xe615;</i></button>
+                        </div>
+                        <shiro:hasPermission name="system:record:add">
+                            <div class="layui-input-inline layui-show-xs-block">
+                                <button class="layui-btn" id="addFac"><i class="layui-icon"></i>添加</button>
+                            </div>
+                        </shiro:hasPermission>
+                    </form>
+                </div>
+                <div class="layui-card-body ">
+                    <table class="layui-hide" id="storehouseTable" lay-filter="storehouseTable"></table>
+                    <script type="text/html" id="barDemo">
+                        <shiro:hasPermission name="system:record:edit">
+                            <a class="layui-btn layui-btn-warm" lay-event="edit">编辑</a>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="system:record:del">
+                            <a class="layui-btn layui-btn-danger" lay-event="del">删除</a>
+                        </shiro:hasPermission>
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    layui.use(['table', 'form'], function () {
+        var $ = layui.$,
+            table = layui.table,
+            form = layui.form;
+        var storehouseTable = table.render({
+            elem: '#storehouseTable'
+            , id: 'storehouseTable'
+            , url: 'getRecordInfoList'
+            , method: 'GET'
+            , title: '仓库表'
+            , cols: [
+                [
+                    {field: 'nameStr',sort: true, title: '名称'}
+                    ,{field: 'count', title: '数量'}
+                    ,{field: 'unitName', title: '单位'}
+                    ,{field: 'price',sort: true, title: '单价'}
+                    ,{field: 'item', sort: true,title: '项目'}
+                    ,{field: 'time', sort: true,title: '时间'}
+                    ,{field: 'note', title: '备注'}
+                    ,{field:'opreate',title: '操作',align:'center', toolbar: '#barDemo', width: 220}
+                ]
+            ]
+            , page: true
+            , response: {
+                statusCode: 1 //重新规定成功的状态码为 200，table 组件默认为 0
+            }
+            , parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data.total, //解析数据长度
+                    "data": res.data.list //解析数据列表
+                };
+            }
+        });
+
+        $.ajax({
+            url: 'getDicList/1',
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                if (data.success) {
+                    $.each(data.data,function (key,val) {
+                        $("#name").append("<option value='"+val.id+"'>"+val.dicName+"</option>")
+                    });
+                    form.render('select');
+                } else {
+                    layer.msg(data.msg, {icon: 5,time: 1500});
+                }
+            },
+            error: function () {
+                layer.msg('系统错误！', {
+                    icon: 5
+                });
+            }
+        });
+        $.ajax({
+            url: 'getDicList/2',
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                if (data.success) {
+                    $.each(data.data,function (key,val) {
+                        $("#unit").append("<option value='"+val.id+"'>"+val.dicName+"</option>")
+                    });
+                    form.render('select');
+                } else {
+                    layer.msg(data.msg, {icon: 5,time: 1500});
+                }
+            },
+            error: function () {
+                layer.msg('系统错误！', {
+                    icon: 5
+                });
+            }
+        });
+
+
+        //条件查询
+        $("#searchStoreHouse").on("click", function () {
+            storehouseTable.reload({
+                where: {
+                    name : $('#name').val(),
+                    unit : $('#unit').val()
+                }
+                , page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+            return false;
+        });
+
+        $('#addFac').on('click', function () {
+            layer.open({
+                type: 2,
+                content: 'view?url=record/record-add',
+                title: '添加记录',
+                area: ['500px', '700px'],
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                    var submitID = 'add',
+                        submit = layero.find('iframe').contents().find('#' + submitID);
+                    submit.trigger('click');
+                },
+                success: function (layero, index) {
+                    var body = layer.getChildFrame('body', index);
+                }
+            });
+            return false;
+        });
+
+
+
+        //监听行工具事件
+        table.on('tool(storehouseTable)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'del') {
+                layer.confirm('确认要删除吗?', function (index) {
+                    $.ajax({
+                        url: 'deleteRecordInfo/'+data.id,
+                        type: 'DELETE',
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.success) {
+                                layer.msg(data.msg, {icon: 6, time: 1500}, function () {
+                                    storehouseTable.reload();
+                                });
+                            } else {
+                                layer.msg(res.msg, {icon: 5, time: 1000});
+                            }
+                        },
+                        error: function () {
+                            layer.msg('系统错误！', {
+                                icon: 5
+                            });
+                        }
+                    });
+                });
+            } else if (obj.event === 'edit') {
+                layer.open({
+                    type: 2,
+                    content: 'view?url=record/record-edit',
+                    title: '编辑记录',
+                    area: ['500px', '700px'],
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        var submitID = 'edit',
+                            submit = layero.find('iframe').contents().find('#' + submitID);
+                        submit.trigger('click');
+                    },
+                    success: function (layero, index) {
+                        var body = layer.getChildFrame('body', index);
+                        body.find("#id").val(data.id);
+                        body.find("#named").val(data.name);
+                        body.find("#count").val(data.count);
+                        body.find("#unitd").val(data.unit);
+                        body.find("#price").val(data.price);
+                        body.find("#item").val(data.item);
+                        body.find("#time").val(data.time);
+                        body.find("#note").val(data.note);
+                    }
+                })
+            }
+        });
+    });
+</script>
+
+</html>

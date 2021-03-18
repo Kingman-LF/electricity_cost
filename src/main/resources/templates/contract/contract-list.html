@@ -96,7 +96,7 @@
         <a class="layui-btn layui-btn-xs" lay-event="moneyBack" >回款</a>
     </shiro:hasPermission>
     <shiro:hasPermission name="contractcost:contract:cost:view">
-        <a class="layui-btn layui-btn-xs" lay-event="cost" >成本</a>
+        <a data-method="setTop"  class="layui-btn layui-btn-xs" lay-event="cost" >成本</a>
     </shiro:hasPermission>
 <!--        <a class="layui-btn layui-btn-xs" lay-event="maintain" >维护</a>-->
 </script>
@@ -123,8 +123,9 @@
                 ,cols: [
                     [
                         {type: 'checkbox', fixed: 'left'}
+                        ,{field: 'creatorName',align: 'center', title: '创建人'}
                         ,{field: 'contractNum',align: 'center', title: '合同编号', totalRowText: '合计'}
-                        ,{field: 'itemName',align: 'center', title: '项目名称'}
+                        ,{field: 'itemName',align: 'center', event: 'cost', title: '项目名称'}
                         ,{field: 'itemManager',align: 'center', title: '项目经理'}
                     //     , {
                     //     field: 'creatTime', align: 'center',title: '签约时间'
@@ -374,11 +375,15 @@
                 layer.open({
                     type: 2,
                     content: 'view?url=contract/contract-cost',
-                    area: ['100%', '100%'],
+                    area: ['90%', '90%'],
                     title:'成本信息',
+                    shade: 0 ,//不显示遮罩
+                    zIndex: layer.zIndex, //重点1
                     success:function(layero,index){
                         var body = layer.getChildFrame('body');
                         body.find("#contractId").val(data.id)
+
+                        layer.setTop(layero); //重点2
                     }
                 });
             }else if(layEvent === 'moneyBack'){

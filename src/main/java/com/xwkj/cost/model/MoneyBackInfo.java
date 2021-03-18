@@ -61,6 +61,25 @@ public class MoneyBackInfo {
 
     private Long applyInvoiceId;
 
+    /**
+     * 对应字段：certificate_number，  字段含义：凭证号
+     */
+    private String certificateNumber;
+
+    /**
+     * 对应字段：create_user，  字段含义：创建人
+     */
+    private String createUser;
+
+    public String getCreatorName() {
+        return creatorName;
+    }
+
+    public MoneyBackInfo setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
+        return this;
+    }
+
     public Long getApplyInvoiceId() {
         return applyInvoiceId;
     }
@@ -142,21 +161,12 @@ public class MoneyBackInfo {
         return this;
     }
 
-    public String getCreatorName() {
-        return creatorName;
-    }
-
-    public MoneyBackInfo setCreatorName(String creatorName) {
-        this.creatorName = creatorName;
-        return this;
-    }
-
     public String getInvaiceRemark() {
         return invaiceRemark;
     }
 
     public MoneyBackInfo setInvaiceRemark(String invaiceRemark) {
-        this.invaiceRemark = invaiceRemark;
+        this.invaiceRemark = invaiceRemark == null ? null : invaiceRemark.trim();
         return this;
     }
 
@@ -166,6 +176,24 @@ public class MoneyBackInfo {
 
     public MoneyBackInfo setStatus(Integer status) {
         this.status = status;
+        return this;
+    }
+
+    public String getCertificateNumber() {
+        return certificateNumber;
+    }
+
+    public MoneyBackInfo setCertificateNumber(String certificateNumber) {
+        this.certificateNumber = certificateNumber == null ? null : certificateNumber.trim();
+        return this;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public MoneyBackInfo setCreateUser(String createUser) {
+        this.createUser = createUser == null ? null : createUser.trim();
         return this;
     }
 }

@@ -15,10 +15,11 @@
     <result column="company" jdbcType="VARCHAR" property="company" />
     <result column="contract_id" jdbcType="BIGINT" property="contractId" />
     <result column="cost_type_id" jdbcType="VARCHAR" property="costTypeId" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
   </resultMap>
   <sql id="Base_Column_List">
     id, sub_contract_name, sub_contract_num, sub_contract_cost, pay_item, cost_money, 
-    status, payee, payee_tel, create_time, company, contract_id, cost_type_id
+    status, payee, payee_tel, create_time, company, contract_id, cost_type_id, create_user
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -35,14 +36,14 @@
       sub_contract_cost, pay_item, cost_money, 
       status, payee, payee_tel, 
       create_time, company, contract_id, 
-      cost_type_id)
+      cost_type_id, create_user)
     values (#{id,jdbcType=BIGINT}, #{subContractName,jdbcType=VARCHAR}, #{subContractNum,jdbcType=VARCHAR}, 
       #{subContractCost,jdbcType=DECIMAL}, #{payItem,jdbcType=VARCHAR}, #{costMoney,jdbcType=DECIMAL}, 
       #{status,jdbcType=INTEGER}, #{payee,jdbcType=VARCHAR}, #{payeeTel,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{company,jdbcType=VARCHAR}, #{contractId,jdbcType=BIGINT}, 
-      #{costTypeId,jdbcType=VARCHAR})
+      #{costTypeId,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.xwkj.cost.model.SubContractInfo" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.xwkj.cost.model.SubContractInfo">
     insert into tbl_gb_sub_contract_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -83,6 +84,9 @@
       </if>
       <if test="costTypeId != null">
         cost_type_id,
+      </if>
+      <if test="createUser != null">
+        create_user,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -125,6 +129,9 @@
       <if test="costTypeId != null">
         #{costTypeId,jdbcType=VARCHAR},
       </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.xwkj.cost.model.SubContractInfo">
@@ -166,6 +173,9 @@
       <if test="costTypeId != null">
         cost_type_id = #{costTypeId,jdbcType=VARCHAR},
       </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -182,7 +192,8 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       company = #{company,jdbcType=VARCHAR},
       contract_id = #{contractId,jdbcType=BIGINT},
-      cost_type_id = #{costTypeId,jdbcType=VARCHAR}
+      cost_type_id = #{costTypeId,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

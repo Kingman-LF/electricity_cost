@@ -12,9 +12,10 @@
     <result column="contract_id" jdbcType="BIGINT" property="contractId" />
     <result column="money_back_id" jdbcType="BIGINT" property="moneyBackId" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, createtime, latetime, type, money, note, contract_id, money_back_id, status
+    id, name, createtime, latetime, type, money, note, contract_id, money_back_id, status, create_user
   </sql>
   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.xwkj.cost.model.ApplyInvoiceInfo">
     insert into tbl_gb_apply_invoice (id, name, createtime,

@@ -25,10 +25,10 @@ public class CostTypeInfoController {
      * @author : zyh
      */
     @GetMapping("/getCostTypeInfoList")
-    public ResponseResult getCostTypeInfoList() {
+    public ResponseResult getCostTypeInfoList(String typeName) {
         ResponseResult responseResult = null;
         try {
-            List<CostTypeInfo> list = costTypeInfoService.getCostTypeInfoList();
+            List<CostTypeInfo> list = costTypeInfoService.getCostTypeInfoList(typeName);
             log.info("获取成本分类列表成功");
             responseResult = ResponseResult.success(ResponseResultEnum.SUCCESS.getCode(),list,"获取成本分类列表成功");
         } catch(Exception e){
@@ -117,10 +117,10 @@ public class CostTypeInfoController {
      * @author : zyh
      */
     @GetMapping("/getCostTypeInfoListByContractId")
-    public ResponseResult getCostTypeInfoListByContractId(Long contractId) {
+    public ResponseResult getCostTypeInfoListByContractId(Long contractId, String name) {
         ResponseResult responseResult = null;
         try {
-            List<CostTypeInfo> list = costTypeInfoService.getCostTypeInfoListByContractId(contractId);
+            List<CostTypeInfo> list = costTypeInfoService.getCostTypeInfoListByContractId(contractId, name);
             log.info("根据合同主键获取成本类型树成功");
             responseResult = ResponseResult.success(ResponseResultEnum.SUCCESS.getCode(),list,"根据合同主键获取成本类型树成功");
         } catch(Exception e){
@@ -130,5 +130,29 @@ public class CostTypeInfoController {
         }
         return responseResult;
     }
+
+    /**
+     * @Description : 根据类型主键获取树主键组成的字符串
+     * @methodName : getCostTypeInfosStr
+     * @param id :
+     * @return : com.xwkj.cost.common.ResponseResult
+     * @exception :
+     * @author : 张永辉
+     */
+    @GetMapping("/getCostTypeInfosStr")
+    public ResponseResult getCostTypeInfosStr(Long id){
+        ResponseResult responseResult = null;
+        try {
+            String str = costTypeInfoService.getCostTypeInfosStr(id);
+            log.info("根据类型主键获取树主键组成的字符串成功");
+            responseResult = ResponseResult.success(ResponseResultEnum.SUCCESS.getCode(),str,"根据类型主键获取树主键组成的字符串成功");
+        } catch(Exception e){
+            e.printStackTrace();
+            log.error("根据类型主键获取树主键组成的字符串失败");
+            responseResult = ResponseResult.failure("根据类型主键获取树主键组成的字符串失败");
+        }
+        return responseResult;
+    }
+
 
 }

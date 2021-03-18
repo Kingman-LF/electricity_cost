@@ -2,6 +2,7 @@ package com.xwkj.cost.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.xwkj.cost.common.LoginUserInfoManager;
 import com.xwkj.cost.mapper.SubContractCostMapperManual;
 import com.xwkj.cost.mapper.auto.SubContractCostMapper;
 import com.xwkj.cost.mapper.auto.SubContractInfoMapper;
@@ -64,7 +65,7 @@ public class SubContractCostServiceImpl implements SubContractCostService {
             return false;
         }
         //否则插入成功,并且修改对应成本合同的总付款
-        subContractCostMapper.insertSelective(subContractCost);
+        subContractCostMapper.insertSelective(subContractCost.setCreateUser(LoginUserInfoManager.getUserInfo().getUserName()));
         subContractInfo.setSubContractCost(contractCost);
         subContractInfoMapper.updateByPrimaryKeySelective(subContractInfo);
         return true;

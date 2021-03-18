@@ -47,6 +47,11 @@ public class SubContractCost {
      */
     private BigDecimal beforeCost;
 
+    /**
+     * 对应字段：create_user，  字段含义：创建人
+     */
+    private String createUser;
+
     public BigDecimal getBeforeCost() {
         return beforeCost;
     }
@@ -116,6 +121,15 @@ public class SubContractCost {
 
     public SubContractCost setIsEnbale(Integer isEnbale) {
         this.isEnbale = isEnbale;
+        return this;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public SubContractCost setCreateUser(String createUser) {
+        this.createUser = createUser == null ? null : createUser.trim();
         return this;
     }
 }

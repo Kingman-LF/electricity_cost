@@ -50,6 +50,10 @@
                             <input lay-verify = "required" readonly id="costTypeName" class="layui-input" type="text" placeholder="请选择成本类型" autocomplete="off">
                             <input id="costTypeId" type="hidden" name="costTypeId" />
                             <div class="ztree" id="treeDiv" style="z-index:1000;background:white;display:none; position: absolute;border:1px solid #4aa5ff;width:200px;">
+                                <div class="layui-input-block">
+                                    <input id="typeName" autocomplete="off" style="width: 150px;display: inline-block" type="text" name="typeName" class="layui-input"/>
+                                    <button type="button" id="search" style="margin-bottom: 2px;" class="layui-btn"><i id="sou" class="layui-icon">&#xe615;</i></button>
+                                </div>
                                 <ul id="tree"></ul>
                             </div>
                         </div>
@@ -205,19 +209,67 @@
             if (typeof(node) != "undefined"){
                 $('#costTypeName').val(node.name);
                 var s=node.id;
-                while(node=node.getParentNode())s=node.id+','+s;
+                $.ajax({
+                    url: 'getCostTypeInfosStr',
+                    type: 'get',
+                    data: {
+                        id: s
+                    },
+                    dataType: 'json',
+                    async: false,
+                    success: function (result) {
+                        if (result.success) {
+                            console.log(result.data)
+                            s = result.data;
+
+                        } else {
+                            alert(result.message);
+                        }
+                    }
+                });
                 $('#costTypeId').val(s);
             }else {
                 $('#costTypeName').val("");
                 $('#costTypeId').val("");
             }
-            if (event.target.id.indexOf('tree') == -1){
+            if (event.target.id.indexOf('tree') == -1 && event.target.id.indexOf('typeName') == -1 && event.target.id.indexOf('search') == -1 && event.target.id.indexOf('sou') == -1){
                 if(event.target.id != 'selectDevType'){
                     hideTree1();
                 }
             }
 
         }
+
+        $('#search').on('click', function () {
+            //加载菜单树
+            $.ajax({
+                url: 'getCostTypeInfoList',
+                type: 'GET',
+                data: {
+                    typeName: $('#typeName').val()
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if(data.success) {
+                        var ztree = $.fn.zTree.init($("#tree"), setting, data.data);
+                        ztree.expandAll(true);
+                        if (data.data[0].name == '所有'){
+                            var disabledNode = ztree.getNodeByParam("level", 0);
+                            ztree.setChkDisabled(disabledNode, true);
+                        }
+                    } else {
+                        layer.msg('加载模块数据节点失败', {
+                            icon: 5
+                        });
+                    }
+                },
+                error: function(data) {
+                    layer.msg(data.msg, {
+                        icon: 5
+                    });
+                }
+            });
+        });
 
 
         //监听提交

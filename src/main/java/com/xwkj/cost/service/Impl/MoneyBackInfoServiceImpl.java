@@ -79,7 +79,8 @@ public class MoneyBackInfoServiceImpl implements MoneyBackInfoService {
 
 
 
-        moneyBackInfo.setCreateTime(new Date()).setCreator(LoginUserInfoManager.getUserInfo().getId()).setStatus(1);
+        moneyBackInfo.setCreateTime(new Date()).setCreator(LoginUserInfoManager.getUserInfo().getId())
+                .setCreateUser(LoginUserInfoManager.getUserInfo().getUserName()).setStatus(1);
         moneyBackInfoMapper.insertSelective(moneyBackInfo);
 
         ApplyInvoiceInfo applyInvoiceInfo = new ApplyInvoiceInfo();

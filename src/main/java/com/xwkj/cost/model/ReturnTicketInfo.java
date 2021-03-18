@@ -42,6 +42,11 @@ public class ReturnTicketInfo {
      */
     private Integer isEnable;
 
+    /**
+     * 对应字段：create_user，  字段含义：创建人
+     */
+    private String createUser;
+
     public Long getId() {
         return id;
     }
@@ -102,6 +107,15 @@ public class ReturnTicketInfo {
 
     public ReturnTicketInfo setIsEnable(Integer isEnable) {
         this.isEnable = isEnable;
+        return this;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public ReturnTicketInfo setCreateUser(String createUser) {
+        this.createUser = createUser == null ? null : createUser.trim();
         return this;
     }
 }

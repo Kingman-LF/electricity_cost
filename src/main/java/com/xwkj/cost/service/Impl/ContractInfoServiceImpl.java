@@ -6,6 +6,7 @@ import com.xwkj.cost.common.LoginUserInfoManager;
 import com.xwkj.cost.mapper.ContractInfoMapperManual;
 import com.xwkj.cost.mapper.auto.ContractInfoMapper;
 import com.xwkj.cost.mapper.auto.EnclosureInfoMapper;
+import com.xwkj.cost.mapper.auto.UserInfoMapper;
 import com.xwkj.cost.model.ContractInfo;
 import com.xwkj.cost.model.EnclosureInfo;
 import com.xwkj.cost.model.UserInfo;
@@ -44,6 +45,9 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 
 	@Autowired
 	MoneyBackInfoService moneyBackInfoService;
+
+	@Autowired
+	UserInfoMapper userInfoMapper;
 
 	/***
 	 * @description: 添加合同附件信息
@@ -110,6 +114,10 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 		for (ContractInfoAndInvoiceInfoVo contractInfoAndInvoiceInfoVo : list) {
 			MoneyBackVo sumAndCount = moneyBackInfoService.getSumAndCount(contractInfoAndInvoiceInfoVo.getId());
 			contractInfoAndInvoiceInfoVo.setMoneySum(sumAndCount.getMoneySum());
+
+			UserInfo userInfo = userInfoMapper.selectByPrimaryKey(contractInfoAndInvoiceInfoVo.getCreator());
+			contractInfoAndInvoiceInfoVo.setCreatorName(userInfo.getUserName());
+
 		}
 		return new PageInfo<>(list);
 	}

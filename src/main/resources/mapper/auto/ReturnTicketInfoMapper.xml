@@ -9,9 +9,10 @@
     <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="sub_contract_id" jdbcType="BIGINT" property="subContractId" />
     <result column="is_enable" jdbcType="INTEGER" property="isEnable" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, money, create_time, ticket_holder, note, sub_contract_id, is_enable
+    id, money, create_time, ticket_holder, note, sub_contract_id, is_enable, create_user
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -26,10 +27,10 @@
   <insert id="insert" parameterType="com.xwkj.cost.model.ReturnTicketInfo">
     insert into tbl_gb_return_ticket_info (id, money, create_time, 
       ticket_holder, note, sub_contract_id, 
-      is_enable)
+      is_enable, create_user)
     values (#{id,jdbcType=BIGINT}, #{money,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
       #{ticketHolder,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{subContractId,jdbcType=BIGINT}, 
-      #{isEnable,jdbcType=INTEGER})
+      #{isEnable,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xwkj.cost.model.ReturnTicketInfo">
     insert into tbl_gb_return_ticket_info
@@ -55,6 +56,9 @@
       <if test="isEnable != null">
         is_enable,
       </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -77,6 +81,9 @@
       </if>
       <if test="isEnable != null">
         #{isEnable,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -101,6 +108,9 @@
       <if test="isEnable != null">
         is_enable = #{isEnable,jdbcType=INTEGER},
       </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -111,7 +121,8 @@
       ticket_holder = #{ticketHolder,jdbcType=VARCHAR},
       note = #{note,jdbcType=VARCHAR},
       sub_contract_id = #{subContractId,jdbcType=BIGINT},
-      is_enable = #{isEnable,jdbcType=INTEGER}
+      is_enable = #{isEnable,jdbcType=INTEGER},
+      create_user = #{createUser,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

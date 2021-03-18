@@ -102,6 +102,20 @@ public class ContractInfoAndInvoiceInfoVo {
 
 	private BigDecimal moneySum;
 
+	/**
+	 * 创建人
+	 */
+	private String creatorName;
+
+	public String getCreatorName() {
+		return creatorName;
+	}
+
+	public ContractInfoAndInvoiceInfoVo setCreatorName(String creatorName) {
+		this.creatorName = creatorName;
+		return this;
+	}
+
 	public Long getId() {
 		return id;
 	}

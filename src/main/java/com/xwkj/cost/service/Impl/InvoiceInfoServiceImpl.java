@@ -61,6 +61,11 @@ public class InvoiceInfoServiceImpl implements InvoiceInfoService {
 	 */
 	@Override
 	public void editInvoiceInfo(InvoiceInfo invoiceInfo) {
-		invoiceInfoMapper.updateByPrimaryKeySelective(invoiceInfo);
+		if (invoiceInfo.getId() == null){
+			invoiceInfoMapper.insertSelective(invoiceInfo);
+		}else {
+			invoiceInfoMapper.updateByPrimaryKeySelective(invoiceInfo);
+		}
+
 	}
 }

@@ -253,7 +253,7 @@
                 ,data:{
                     id:params.id
                 }
-                ,async:"false"
+                ,async:false
                 ,success:function(res){
                     if (res.success){
                         if(res.data != null){
@@ -472,6 +472,7 @@
                                             ,mailingAddr:$("#mailingAddr").val()
                                             ,contactName:$("#contactName").val()
                                             ,tel:$("#tel").val()
+                                            ,contractId:params.id
                                         }
                                         ,async:"false"
                                         ,success:function(result){
